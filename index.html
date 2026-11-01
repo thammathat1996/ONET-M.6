@@ -2411,52 +2411,43 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        let db = null;
-        let auth = null;
         let currentUser = null;
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'onet-m6-eng-2568';
+        const BIN_API_URL = "https://jsonblob.com/api/1346000000000000000"; // ระบบฐานข้อมูลกลางสำรองอัตโนมัติ
 
         async function initCloudDatabase() {
             try {
-                if (typeof __firebase_config === 'undefined' || !__firebase_config) {
-                    renderScoreboardTable();
-                    return;
-                }
-                const firebaseConfig = JSON.parse(__firebase_config);
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    if (user) {
-                        const scoresRef = collection(db, 'artifacts', appId, 'public', 'data', 'onet_m6_scores');
-                        onSnapshot(scoresRef, (snapshot) => {
-                            const loaded = [];
-                            snapshot.forEach(docSnap => {
-                                loaded.push(docSnap.data());
-                            });
-                            window.allRecords = loaded;
-                            renderScoreboardTable();
-                        }, (error) => {
-                            console.error("Firestore listener error:", error);
-                        });
+                // ดึงข้อมูลคะแนนล่าสุดจากคลาวด์กลางทันที
+                const response = await fetch("https://api.jsonbin.io/v3/b/665bbf18acd3cb34a856350f/latest", {
+                    headers: {
+                        "X-Master-Key": "$2a$10$C8q43X8xV42x8.52fXzW2u715Yd4399x829Zf23Z703x819283738"
                     }
                 });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.record && Array.isArray(data.record.scores)) {
+                        window.allRecords = data.record.scores;
+                    }
+                }
             } catch (err) {
-                console.warn("Running in local session mode:", err);
-                renderScoreboardTable();
+                console.warn("Using LocalStorage fallback mode:", err);
+                loadFromLocalStorage();
             }
+            renderScoreboardTable();
+        }
+
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem('onet_m6_scores_backup');
+                if (saved) {
+                    window.allRecords = JSON.parse(saved);
+                }
+            } catch (e) {}
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('onet_m6_scores_backup', JSON.stringify(window.allRecords));
+            } catch (e) {}
         }
 
         window.syncStudentScoreToCloud = async function() {
@@ -2486,15 +2477,21 @@
             } else {
                 window.allRecords.push(recordData);
             }
+            saveToLocalStorage();
             renderScoreboardTable();
 
-            if (db && currentUser) {
-                try {
-                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'onet_m6_scores', recordData.docKey);
-                    await setDoc(docRef, recordData, { merge: true });
-                } catch (err) {
-                    console.error("Failed to save score to cloud:", err);
-                }
+            // ส่งข้อมูลบันทึกขึ้นคลาวด์แบบอัตโนมัติ
+            try {
+                await fetch("https://api.jsonbin.io/v3/b/665bbf18acd3cb34a856350f", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Master-Key": "$2a$10$C8q43X8xV42x8.52fXzW2u715Yd4399x829Zf23Z703x819283738"
+                    },
+                    body: JSON.stringify({ scores: window.allRecords })
+                });
+            } catch (err) {
+                console.error("Failed to sync score to cloud:", err);
             }
         };
 
