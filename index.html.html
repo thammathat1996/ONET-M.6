@@ -1,0 +1,2849 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>วิชาภาษาอังกฤษรอบรู้ 2 - ระบบสอบ O-NET ม.6 (ปีการศึกษา 2568)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif;
+            background-color: #FFFDF7;
+            background-image: radial-gradient(#0f172a 1.25px, transparent 1.25px);
+            background-size: 24px 24px;
+            color: #0f172a;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .brutal-card {
+            background-color: #ffffff;
+            border: 3px solid #0f172a;
+            box-shadow: 6px 6px 0px #0f172a;
+        }
+        .brutal-card-sm {
+            background-color: #ffffff;
+            border: 2.5px solid #0f172a;
+            box-shadow: 4px 4px 0px #0f172a;
+        }
+        .brutal-btn {
+            border: 2.5px solid #0f172a;
+            box-shadow: 4px 4px 0px #0f172a;
+            transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .brutal-btn:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #0f172a;
+        }
+        .brutal-btn:active:not(:disabled) {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px #0f172a;
+        }
+        .brutal-input {
+            border: 2.5px solid #0f172a;
+            box-shadow: 3px 3px 0px #0f172a;
+            transition: all 0.15s ease;
+        }
+        .brutal-input:focus {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #0f172a;
+            background-color: #FEF08A;
+        }
+        .option-card {
+            border: 2.5px solid #0f172a;
+            box-shadow: 4px 4px 0px #0f172a;
+            transition: all 0.12s ease;
+        }
+        .option-card:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #0f172a;
+        }
+        .option-card:active {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0px #0f172a;
+        }
+        .digital-board {
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 0.05em;
+        }
+        .glass-header {
+            background: #FDE047;
+            border-bottom: 3.5px solid #0f172a;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFFDF7;
+            border-left: 2px solid #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f172a;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-900">
+
+    <!-- Top Navigation Bar (Neo-Brutalism) -->
+    <header id="mainTopHeader" class="glass-header text-slate-900 sticky top-0 z-30">
+        <div class="max-w-5xl mx-auto px-3 sm:px-5 py-3 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-400 text-slate-950 font-black px-3 py-1.5 rounded-xl text-xs tracking-wider brutal-card-sm flex items-center gap-1.5">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>O-NET 68</span>
+                </div>
+                <div>
+                    <h1 class="font-black text-sm sm:text-base leading-tight text-slate-950">วิชาภาษาอังกฤษรอบรู้ 2 <span class="bg-white px-2 py-0.5 rounded-md border-2 border-slate-900 text-xs font-extrabold ml-1">ม.6</span></h1>
+                    <p class="text-xs font-bold text-slate-800 leading-tight mt-0.5">ครูผู้สอน นายธรรมธัช ธรรมราช</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <!-- Sync Indicator -->
+                <div id="syncStatusBadge" class="hidden sm:flex items-center space-x-1.5 bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-2.5 py-1 rounded-xl text-[11px] font-extrabold text-slate-900">
+                    <span id="syncDot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-slate-900"></span>
+                    <span id="syncText">พร้อมบันทึก</span>
+                </div>
+
+                <div id="studentBadge" class="hidden bg-cyan-200 border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a] px-3 py-1.5 rounded-xl text-xs flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 border border-slate-900"></span>
+                    <span id="badgeText" class="font-extrabold text-slate-950 truncate max-w-[140px] sm:max-w-none"></span>
+                    <button onclick="openEditProfileModal()" class="text-slate-900 hover:text-rose-600 ml-1 transition" title="สลับบัญชี / แก้ไขข้อมูลนักเรียน">
+                        <i class="fas fa-pen-to-square"></i>
+                    </button>
+                </div>
+
+                <button onclick="handleAdminAccessClick()" id="navAdminBtn" class="bg-white hover:bg-pink-200 text-slate-950 px-3 py-1.5 rounded-xl text-xs font-extrabold brutal-btn flex items-center space-x-1.5">
+                    <i id="adminBtnIcon" class="fas fa-lock text-slate-900"></i>
+                    <span class="hidden sm:inline" id="adminBtnText">สำหรับครูผู้สอน</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-2.5 sm:px-5 py-4 sm:py-7">
+
+        <!-- VIEW 1: STUDENT REGISTRATION -->
+        <section id="registrationView" class="max-w-lg mx-auto my-2 sm:my-6 brutal-card rounded-3xl overflow-hidden">
+            <div class="bg-emerald-300 border-b-4 border-slate-900 p-6 sm:p-8 text-slate-950 text-center relative overflow-hidden">
+                <div class="w-16 h-16 bg-yellow-300 border-3 border-slate-900 shadow-[4px_4px_0px_#0f172a] rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-book-open-reader text-2xl text-slate-950"></i>
+                </div>
+                <span class="inline-flex items-center gap-1.5 bg-white border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a] text-slate-950 text-xs font-extrabold px-3.5 py-1 rounded-full mb-3">
+                    <i class="fas fa-bolt text-amber-500"></i> วิชาภาษาอังกฤษรอบรู้ 2 • ครูธรรมธัช ธรรมราช
+                </span>
+                <h2 class="text-xl sm:text-2xl font-black tracking-tight">ระบบสอบ O-NET ภาษาอังกฤษ ม.6</h2>
+                <p class="text-slate-800 font-bold text-xs sm:text-sm mt-1">ระบบทดสอบวิชาภาษาอังกฤษออนไลน์ (ปีการศึกษา 2568)</p>
+            </div>
+
+            <form id="studentForm" onsubmit="handleRegistration(event)" class="p-6 sm:p-7 space-y-5 bg-white">
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-900 mb-1.5">ชื่อ - นามสกุล นักเรียน <span class="text-rose-600">*</span></label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-3.5 text-slate-900"></i>
+                        <input type="text" id="inputName" required placeholder="เช่น นายรักเรียน เพียรศึกษา"
+                            class="w-full pl-11 pr-4 py-3 rounded-2xl brutal-input bg-white outline-none font-bold text-slate-900 select-text">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3.5">
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-wider text-slate-900 mb-1.5">ห้องเรียน <span class="text-rose-600">*</span></label>
+                        <div class="relative">
+                            <i class="fas fa-layer-group absolute left-4 top-3.5 text-slate-900"></i>
+                            <select id="inputRoom" required
+                                class="w-full pl-11 pr-4 py-3 rounded-2xl brutal-input bg-white outline-none font-extrabold text-slate-900">
+                                <option value="ม.6/1">ม.6/1</option>
+                                <option value="ม.6/2">ม.6/2</option>
+                                <option value="ม.6/3">ม.6/3</option>
+                                <option value="ม.6/4">ม.6/4</option>
+                                <option value="ม.6/5">ม.6/5</option>
+                                <option value="ม.6/6">ม.6/6</option>
+                                <option value="ม.6/7">ม.6/7</option>
+                                <option value="ม.6/8">ม.6/8</option>
+                                <option value="ม.6/9">ม.6/9</option>
+                                <option value="ม.6/10">ม.6/10</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-wider text-slate-900 mb-1.5">เลขที่ <span class="text-rose-600">*</span></label>
+                        <div class="relative">
+                            <i class="fas fa-hashtag absolute left-4 top-3.5 text-slate-900"></i>
+                            <input type="number" id="inputNumber" required min="1" max="99" placeholder="1 - 60"
+                                class="w-full pl-11 pr-4 py-3 rounded-2xl brutal-input bg-white outline-none font-extrabold text-slate-900 select-text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-amber-100 border-2 border-slate-900 shadow-[4px_4px_0px_#0f172a] rounded-2xl p-4 text-xs text-slate-900 space-y-1.5 font-medium">
+                    <div class="font-black flex items-center gap-1.5 text-slate-950 text-sm">
+                        <i class="fas fa-circle-info text-slate-950"></i> คำแนะนำและกติกาการสอบออนไลน์
+                    </div>
+                    <p>• แบ่งทำเป็น <strong>3 ตอน (ตอนละ 20 ข้อ)</strong> ต้องผ่านเกณฑ์ <strong>60% (12/20 คะแนน)</strong></p>
+                    <p class="text-emerald-950 font-bold">• <strong>ระบบล็อกเมื่อสอบผ่าน:</strong> หากทำผ่านเกณฑ์ 60% แล้ว จะไม่สามารถทำซ้ำได้อีก</p>
+                    <p class="text-rose-800 font-bold">• <strong>ข้อควรระวัง:</strong> คะแนนจะถูกบันทึกเข้า Google Sheets ทันที ห้ามสลับแท็บหรือออกนอกจอขณะสอบ</p>
+                </div>
+
+                <button type="submit" id="loginSubmitBtn" class="w-full bg-yellow-300 hover:bg-yellow-400 text-slate-950 font-black py-3.5 rounded-2xl brutal-btn flex items-center justify-center space-x-2 text-base">
+                    <span>เริ่มต้นเข้าสู่ห้องสอบออนไลน์</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- VIEW 2: STUDENT 3-PART DASHBOARD -->
+        <section id="dashboardView" class="hidden space-y-6">
+            <div class="bg-cyan-200 brutal-card rounded-3xl p-5 sm:p-7 text-slate-950 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 relative z-10">
+                    <div class="space-y-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-yellow-300 text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a]">
+                                <i class="fas fa-book-open"></i> วิชาภาษาอังกฤษรอบรู้ 2
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-white text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a]">
+                                <i class="fas fa-chalkboard-user text-indigo-600"></i> ครูผู้สอน นายธรรมธัช ธรรมราช
+                            </span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-black tracking-tight">เลือกตอนข้อสอบ O-NET ภาษาอังกฤษ ม.6</h2>
+                        <p class="text-slate-900 font-semibold text-xs sm:text-sm">
+                            ทำข้อสอบให้ผ่านเกณฑ์ <strong>60% (12 / 20 คะแนน)</strong> ครบทั้ง 3 ตอน เพื่อบันทึกผลผ่านและปลดล็อกเฉลย
+                        </p>
+                        <div id="overallPassBanner" class="inline-flex items-center gap-2 text-xs font-extrabold px-3.5 py-2 rounded-xl bg-amber-300 text-slate-950 border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a]">
+                            <i class="fas fa-lock text-slate-950"></i>
+                            <span>สถานะเฉลย: ล็อกอยู่ (ต้องสอบผ่านเกณฑ์ 60% ครบทั้ง 3 ตอนก่อน)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border-3 border-slate-900 shadow-[5px_5px_0px_#0f172a] rounded-2xl px-6 py-4 text-center min-w-[190px] self-stretch md:self-auto flex flex-col justify-center">
+                        <span class="text-xs text-slate-700 font-black uppercase tracking-wider">คะแนนสะสมออนไลน์</span>
+                        <div class="text-3xl sm:text-4xl font-black text-slate-950 mt-1">
+                            <span id="dashTotalScore" class="text-emerald-600">0</span> <span class="text-lg font-extrabold text-slate-500">/ 60</span>
+                        </div>
+                        <span id="dashPercentText" class="text-[11px] font-extrabold text-slate-800 mt-1">คิดเป็น 0% (เกณฑ์รวม 36/60)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- Part 1 Card -->
+                <div class="brutal-card rounded-3xl overflow-hidden flex flex-col">
+                    <div class="bg-sky-300 border-b-3 border-slate-900 p-5 text-slate-950 relative">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-3 py-1 rounded-xl text-xs font-black tracking-wider">PART 1</span>
+                            <span id="part1Badge" class="bg-yellow-300 border-2 border-slate-900 px-3 py-1 rounded-full text-xs font-extrabold">ยังไม่ได้ทำ</span>
+                        </div>
+                        <div class="mt-4 flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-white border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a] flex items-center justify-center text-xl">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-black leading-tight">Language Use</h3>
+                                <p class="text-slate-900 font-bold text-xs">ข้อที่ 1 - 20 (ผ่าน 12/20)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-5 bg-white">
+                        <div class="space-y-2.5 text-sm text-slate-900 font-medium">
+                            <div class="flex items-center gap-2.5 bg-sky-50 border-2 border-slate-900 p-2.5 rounded-xl">
+                                <i class="fas fa-comment-dots text-slate-900"></i>
+                                <span><strong>1.1 Situational Dialogs</strong> (1-5)</span>
+                            </div>
+                            <div class="flex items-center gap-2.5 bg-sky-50 border-2 border-slate-900 p-2.5 rounded-xl">
+                                <i class="fas fa-messages text-slate-900"></i>
+                                <span><strong>1.2 Dialog Completion</strong> (6-20)</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t-2 border-slate-900 space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-700 font-bold">คะแนนล่าสุด:</span>
+                                <span id="part1ScoreText" class="font-black text-lg text-slate-950">- / 20</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button id="part1ActionBtn" onclick="startPart(1, false)" class="flex-1 bg-sky-300 hover:bg-sky-400 text-slate-950 font-black py-3 px-4 rounded-2xl text-sm brutal-btn flex items-center justify-center gap-2">
+                                    <i class="fas fa-play text-xs"></i> <span id="part1BtnLabel">เริ่มทำ Part 1</span>
+                                </button>
+                                <button id="part1ReviewBtn" onclick="startPart(1, true)" class="hidden bg-yellow-300 hover:bg-yellow-400 text-slate-950 font-black py-3 px-4 rounded-2xl text-sm brutal-btn" title="ดูเฉลย">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2 Card -->
+                <div class="brutal-card rounded-3xl overflow-hidden flex flex-col">
+                    <div class="bg-purple-300 border-b-3 border-slate-900 p-5 text-slate-950 relative">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-3 py-1 rounded-xl text-xs font-black tracking-wider">PART 2</span>
+                            <span id="part2Badge" class="bg-yellow-300 border-2 border-slate-900 px-3 py-1 rounded-full text-xs font-extrabold">ยังไม่ได้ทำ</span>
+                        </div>
+                        <div class="mt-4 flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-white border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a] flex items-center justify-center text-xl">
+                                <i class="fas fa-pen-nib"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-black leading-tight">Writing</h3>
+                                <p class="text-slate-900 font-bold text-xs">ข้อที่ 21 - 40 (ผ่าน 12/20)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-5 bg-white">
+                        <div class="space-y-2 text-sm text-slate-900 font-medium">
+                            <div class="flex items-center gap-2.5 bg-purple-50 border-2 border-slate-900 p-2 rounded-xl">
+                                <i class="fas fa-paragraph text-slate-900"></i>
+                                <span><strong>2.1 Paragraph Completion</strong> (21-28)</span>
+                            </div>
+                            <div class="flex items-center gap-2.5 bg-purple-50 border-2 border-slate-900 p-2 rounded-xl">
+                                <i class="fas fa-arrow-down-a-z text-slate-900"></i>
+                                <span><strong>2.2 Sentence Ordering</strong> (29-35)</span>
+                            </div>
+                            <div class="flex items-center gap-2.5 bg-purple-50 border-2 border-slate-900 p-2 rounded-xl">
+                                <i class="fas fa-sitemap text-slate-900"></i>
+                                <span><strong>2.3 Paragraph Org.</strong> (36-40)</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t-2 border-slate-900 space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-700 font-bold">คะแนนล่าสุด:</span>
+                                <span id="part2ScoreText" class="font-black text-lg text-slate-950">- / 20</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button id="part2ActionBtn" onclick="startPart(2, false)" class="flex-1 bg-purple-300 hover:bg-purple-400 text-slate-950 font-black py-3 px-4 rounded-2xl text-sm brutal-btn flex items-center justify-center gap-2">
+                                    <i class="fas fa-play text-xs"></i> <span id="part2BtnLabel">เริ่มทำ Part 2</span>
+                                </button>
+                                <button id="part2ReviewBtn" onclick="startPart(2, true)" class="hidden bg-yellow-300 hover:bg-yellow-400 text-slate-950 font-black py-3 px-4 rounded-2xl text-sm brutal-btn" title="ดูเฉลย">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 3 Card -->
+                <div class="brutal-card rounded-3xl overflow-hidden flex flex-col">
+                    <div class="bg-emerald-300 border-b-3 border-slate-900 p-5 text-slate-950 relative">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-3 py-1 rounded-xl text-xs font-black tracking-wider">PART 3</span>
+                            <span id="part3Badge" class="bg-yellow-300 border-2 border-slate-900 px-3 py-1 rounded-full text-xs font-extrabold">ยังไม่ได้ทำ</span>
+                        </div>
+                        <div class="mt-4 flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-2xl bg-white border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a] flex items-center justify-center text-xl">
+                                <i class="fas fa-book-open-reader"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-black leading-tight">Reading</h3>
+                                <p class="text-slate-900 font-bold text-xs">ข้อที่ 41 - 60 (ผ่าน 12/20)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-5 bg-white">
+                        <div class="space-y-2.5 text-sm text-slate-900 font-medium">
+                            <div class="flex items-center gap-2.5 bg-emerald-50 border-2 border-slate-900 p-2.5 rounded-xl">
+                                <i class="fas fa-chart-line text-slate-900"></i>
+                                <span><strong>3.1 Graphic Presentations</strong> (41-50)</span>
+                            </div>
+                            <div class="flex items-center gap-2.5 bg-emerald-50 border-2 border-slate-900 p-2.5 rounded-xl">
+                                <i class="fas fa-file-lines text-slate-900"></i>
+                                <span><strong>3.2 Passage Reading</strong> (51-60)</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t-2 border-slate-900 space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-700 font-bold">คะแนนล่าสุด:</span>
+                                <span id="part3ScoreText" class="font-black text-lg text-slate-950">- / 20</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button id="part3ActionBtn" onclick="startPart(3, false)" class="flex-1 bg-emerald-300 hover:bg-emerald-400 text-slate-950 font-black py-3 px-4 rounded-2xl text-sm brutal-btn flex items-center justify-center gap-2">
+                                    <i class="fas fa-play text-xs"></i> <span id="part3BtnLabel">เริ่มทำ Part 3</span>
+                                </button>
+                                <button id="part3ReviewBtn" onclick="startPart(3, true)" class="hidden bg-yellow-300 hover:bg-yellow-400 text-slate-950 font-black py-3 px-4 rounded-2xl text-sm brutal-btn" title="ดูเฉลย">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW 3: QUIZ RUNNER -->
+        <section id="quizView" class="hidden space-y-3.5 sm:space-y-4">
+            <div id="antiCheatBanner" class="bg-rose-300 brutal-card-sm text-slate-950 px-4 py-2.5 rounded-2xl text-xs font-black flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-eye text-slate-950 animate-pulse"></i>
+                    <span>โหมดควบคุมการสอบออนไลน์: ห้ามออกจากจอหรือสลับแท็บ (เตือน: <span id="cheatCountText">0</span>/2 ครั้ง)</span>
+                </div>
+                <button onclick="requestFullscreenMode()" class="bg-white hover:bg-yellow-300 text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-3 py-1 rounded-xl text-xs font-extrabold transition">
+                    <i class="fas fa-expand mr-1"></i> เต็มจอ
+                </button>
+            </div>
+
+            <div class="bg-yellow-300 brutal-card-sm rounded-2xl px-4 py-3 flex justify-between items-center gap-2">
+                <button onclick="confirmExitQuiz()" class="bg-white hover:bg-rose-200 text-slate-950 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black brutal-btn flex items-center gap-1.5 shrink-0">
+                    <i class="fas fa-arrow-left"></i> <span>ออก</span>
+                </button>
+                <div class="text-center truncate px-1">
+                    <h2 id="quizHeaderTitle" class="font-black text-slate-950 text-sm sm:text-base truncate">Part 1: Language Use</h2>
+                    <p id="quizHeaderSub" class="text-[11px] font-extrabold text-slate-800">ตอบแล้ว 0 / 20 ข้อ (เกณฑ์ผ่าน 12/20)</p>
+                </div>
+                <button onclick="toggleQuestionJumpDrawer()" class="bg-white hover:bg-cyan-200 text-slate-950 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-black brutal-btn flex items-center gap-1.5 shrink-0" title="ดูข้อที่ทำแล้ว">
+                    <i class="fas fa-grip"></i> <span class="hidden sm:inline">ข้อทั้งหมด</span>
+                </button>
+            </div>
+
+            <div id="questionJumpDrawer" class="hidden brutal-card-sm rounded-2xl p-4 bg-white">
+                <div class="text-xs font-black text-slate-900 mb-2.5 flex justify-between items-center">
+                    <span>แตะหมายเลขข้อเพื่อเลื่อนไปยังข้อนั้น:</span>
+                    <button onclick="toggleQuestionJumpDrawer()" class="text-slate-900 hover:text-rose-600"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="questionNavPills" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <div id="questionsContainer" class="space-y-3.5 sm:space-y-4 pb-6"></div>
+
+            <div id="bottomSubmitBar" class="brutal-card rounded-2xl p-4 sm:p-5 bg-amber-100 flex flex-col sm:flex-row justify-between items-center gap-3 mb-10">
+                <div class="text-xs sm:text-sm text-slate-950 font-extrabold text-center sm:text-left">
+                    <i class="fas fa-circle-info text-slate-950 mr-1"></i> ตรวจสอบคำตอบให้ครบถ้วนก่อนส่ง (ผ่านเกณฑ์ 60% แล้วจะล็อกทันที)
+                </div>
+                <button id="submitPartBtn" onclick="confirmSubmitPart()" class="w-full sm:w-auto bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-black px-8 py-3.5 rounded-2xl text-sm sm:text-base brutal-btn flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>ส่งคำตอบตรวจคะแนน</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- VIEW 4: TEACHER / ADMIN PORTAL -->
+        <section id="scoreboardView" class="hidden space-y-6">
+            <div class="brutal-card rounded-3xl p-5 sm:p-7 bg-white">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-5 border-b-3 border-slate-900">
+                    <div>
+                        <div class="inline-flex items-center gap-2 bg-yellow-300 border-2 border-slate-900 shadow-[3px_3px_0px_#0f172a] text-slate-950 px-3 py-1 rounded-full text-xs font-black mb-2">
+                            <i class="fas fa-user-shield text-slate-950"></i>
+                            <span>โหมดผู้ดูแลระบบ (Teacher Admin) • ครูธรรมธัช ธรรมราช</span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-black text-slate-950">ระบบจัดการคะแนนสอบออนไลน์ O-NET ม.6 (ม.6/1 - ม.6/10)</h2>
+                        <p class="text-xs sm:text-sm font-bold text-slate-700 mt-0.5">วิชาภาษาอังกฤษรอบรู้ 2 • เชื่อมต่อ Google Sheets & Cloud Database</p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        <button onclick="exitAdminMode()" class="bg-slate-200 hover:bg-slate-300 text-slate-950 text-xs sm:text-sm font-black px-3.5 py-2.5 rounded-xl brutal-btn flex items-center gap-1.5">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>กลับโหมดนักเรียน</span>
+                        </button>
+
+                        <button onclick="toggleGoogleSheetSetupModal()" class="bg-amber-300 hover:bg-amber-400 text-slate-950 text-xs sm:text-sm font-black px-3.5 py-2.5 rounded-xl brutal-btn flex items-center gap-1.5">
+                            <i class="fas fa-table"></i>
+                            <span>ตั้งค่าเชื่อม Google Sheet</span>
+                        </button>
+
+                        <button onclick="fetchCloudRecords(true)" class="bg-cyan-300 hover:bg-cyan-400 text-slate-950 text-xs sm:text-sm font-black px-3.5 py-2.5 rounded-xl brutal-btn flex items-center gap-1.5">
+                            <i class="fas fa-rotate"></i>
+                            <span>ดึงข้อมูลล่าสุด</span>
+                        </button>
+
+                        <button onclick="exportCSV()" class="bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-xs sm:text-sm font-black px-3.5 py-2.5 rounded-xl brutal-btn flex items-center gap-1.5">
+                            <i class="fas fa-file-csv"></i>
+                            <span>ดาวน์โหลด Excel</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Google Sheet Status Banner -->
+                <div id="gsheetStatusBanner" class="my-4 p-4 rounded-2xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-emerald-50/70 border-emerald-200">
+                    <div class="flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fas fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <div id="gsheetStatusTitle" class="text-xs sm:text-sm font-extrabold text-emerald-950">สถานะฐานข้อมูล: เชื่อมต่อระบบ Cloud อัตโนมัติพร้อมใช้งาน</div>
+                            <p id="gsheetStatusDesc" class="text-xs text-emerald-800 mt-0.5">หากคุณครูต้องการให้คะแนนวิ่งเข้าไฟล์ Google Sheets ในบัญชี Google ของครูเองโดยตรง สามารถกดปุ่ม "ตั้งค่าเชื่อม Google Sheet" ด้านบนได้ครับ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-3 my-4 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-700"><i class="fas fa-filter text-indigo-600 mr-1"></i>เลือกห้องเรียน:</span>
+                        <select id="filterRoomSelect" onchange="renderScoreboardTable()" class="bg-white text-slate-800 text-sm font-bold px-3.5 py-2 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="ALL">แสดงทุกห้องเรียน (ม.6/1 - 6/10)</option>
+                            <option value="ม.6/1">ม.6/1</option>
+                            <option value="ม.6/2">ม.6/2</option>
+                            <option value="ม.6/3">ม.6/3</option>
+                            <option value="ม.6/4">ม.6/4</option>
+                            <option value="ม.6/5">ม.6/5</option>
+                            <option value="ม.6/6">ม.6/6</option>
+                            <option value="ม.6/7">ม.6/7</option>
+                            <option value="ม.6/8">ม.6/8</option>
+                            <option value="ม.6/9">ม.6/9</option>
+                            <option value="ม.6/10">ม.6/10</option>
+                        </select>
+                    </div>
+                    <div class="text-xs text-slate-500">
+                        เกณฑ์การผ่าน: <strong class="text-emerald-700">60% ขึ้นไป</strong> (ตอนละ 12/20 คะแนน)
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 my-5">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <div class="text-xs text-slate-500 font-medium">จำนวนผู้เข้าสอบ</div>
+                        <div id="statCount" class="text-2xl font-extrabold text-slate-800 mt-1">0 คน</div>
+                    </div>
+                    <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                        <div class="text-xs text-indigo-700 font-medium">เฉลี่ย Part 1 (20)</div>
+                        <div id="statAvgP1" class="text-2xl font-extrabold text-indigo-900 mt-1">-</div>
+                    </div>
+                    <div class="bg-violet-50/60 p-4 rounded-2xl border border-violet-100">
+                        <div class="text-xs text-violet-700 font-medium">เฉลี่ย Part 2 (20)</div>
+                        <div id="statAvgP2" class="text-2xl font-extrabold text-violet-900 mt-1">-</div>
+                    </div>
+                    <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200">
+                        <div class="text-xs text-emerald-800 font-bold">เฉลี่ยรวมสุทธิ (60)</div>
+                        <div id="statAvgTotal" class="text-2xl font-extrabold text-emerald-900 mt-1">-</div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto rounded-2xl border border-slate-200">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-white text-xs uppercase tracking-wider">
+                                <th class="py-3.5 px-4 font-bold text-center w-20">ห้อง</th>
+                                <th class="py-3.5 px-4 font-bold text-center w-20">เลขที่ <i class="fas fa-sort-numeric-down ml-1 text-emerald-400"></i></th>
+                                <th class="py-3.5 px-4 font-bold">ชื่อ - นามสกุล</th>
+                                <th class="py-3.5 px-4 font-bold text-center">Part 1<br><span class="text-[10px] font-normal text-slate-300">(ผ่าน 12/20)</span></th>
+                                <th class="py-3.5 px-4 font-bold text-center">Part 2<br><span class="text-[10px] font-normal text-slate-300">(ผ่าน 12/20)</span></th>
+                                <th class="py-3.5 px-4 font-bold text-center">Part 3<br><span class="text-[10px] font-normal text-slate-300">(ผ่าน 12/20)</span></th>
+                                <th class="py-3.5 px-4 font-bold text-center bg-slate-950">รวมสุทธิ<br><span class="text-[10px] font-normal text-emerald-300">(60 คะแนน)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreboardTableBody" class="divide-y divide-slate-200 text-sm">
+                            <tr>
+                                <td colspan="7" class="py-8 text-center text-slate-400">กำลังเชื่อมต่อฐานข้อมูลออนไลน์...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Google Sheets Setup Modal for Teacher -->
+    <div id="gsheetModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border border-slate-200 my-8 max-h-[90vh] overflow-y-auto select-text">
+            <div class="flex justify-between items-start gap-3 pb-4 border-b border-slate-200">
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl shrink-0">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-extrabold text-slate-900">เชื่อมต่อ Google Sheets เป็นฐานข้อมูล</h3>
+                        <p class="text-xs text-slate-500">คะแนนนักเรียนทุกคนจะวิ่งเข้า Google Sheet ของคุณครูโดยตรงแบบอัตโนมัติ</p>
+                    </div>
+                </div>
+                <button onclick="toggleGoogleSheetSetupModal()" class="text-slate-400 hover:text-slate-600 text-lg px-2"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="space-y-4 my-4 text-xs sm:text-sm text-slate-700">
+                <div class="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-4 space-y-2">
+                    <div class="font-extrabold text-indigo-950">วิธีสร้างลิงก์ Google Sheets (ทำครั้งเดียวใช้ได้ตลอดไป):</div>
+                    <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                        <li>เปิด <strong>Google Sheets</strong> สร้างชีตว่างขึ้นมา 1 อัน</li>
+                        <li>กดเมนูด้านบน <strong>ส่วนขยาย (Extensions)</strong> &rarr; <strong>Apps Script</strong></li>
+                        <li>ลบโค้ดเดิมออกให้หมด แล้วกดปุ่ม <strong>"คัดลอกโค้ด Apps Script"</strong> ด้านล่างนี้ไปวางแทนที่</li>
+                        <li>กดปุ่มสีน้ำเงิน <strong>การทำให้ใช้งานได้ (Deploy)</strong> &rarr; <strong>การทำให้ใช้งานได้รายการใหม่ (New deployment)</strong></li>
+                        <li>ตรงประเภทให้เลือก <strong>เว็บแอป (Web app)</strong> และตรง <em>ผู้ที่มีสิทธิ์เข้าถึง (Who has access)</em> ให้เลือกเป็น <strong>"ทุกคน (Anyone)"</strong> จากนั้นกด Deploy</li>
+                        <li>คัดลอก <strong>URL ของเว็บแอป (Web App URL)</strong> ที่ลงท้ายด้วย <code>/exec</code> มาวางในช่องด้านล่างนี้ได้เลย!</li>
+                    </ol>
+                    <div class="pt-2">
+                        <button type="button" onclick="copyAppsScriptCode()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm">
+                            <i class="fas fa-copy"></i> <span id="copyScriptBtnText">คัดลอกโค้ด Apps Script สำหรับวางใน Google Sheet</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-1.5">วาง Web App URL จาก Google Sheets ของคุณครู (ลงท้ายด้วย /exec):</label>
+                    <input type="url" id="inputGoogleSheetUrl" placeholder="https://script.google.com/macros/s/......./exec"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-emerald-500 outline-none text-xs sm:text-sm font-mono select-text">
+                    <p class="text-[11px] text-slate-500 mt-1.5">
+                        * ทิปสำหรับฝังถาวรบน GitHub: คุณครูสามารถนำลิงก์นี้ไปใส่ในตัวแปร <code>GOOGLE_SHEET_WEBAPP_URL</code> ในไฟล์ <code>index.html</code> บรรทัดที่ 848 เพื่อให้เครื่องนักเรียนทุกคนส่งคะแนนเข้าชีตนี้โดยตรงได้เลยครับ
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 pt-3 border-t border-slate-200">
+                <button type="button" onclick="toggleGoogleSheetSetupModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold transition">ปิดหน้าต่าง</button>
+                <button type="button" onclick="saveCustomGoogleSheetUrl()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold transition shadow-md">บันทึกและทดสอบการเชื่อมต่อ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200">
+            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mx-auto mb-3">
+                <i class="fas fa-user-lock"></i>
+            </div>
+            <h3 class="text-lg font-extrabold text-slate-900 text-center">เข้าสู่ระบบแอดมิน (สำหรับครู)</h3>
+            <p class="text-xs text-slate-500 text-center mt-1 mb-4">กรุณากรอกรหัสผ่านเพื่อดูตารางคะแนนนักเรียนทั้งหมด</p>
+            <form onsubmit="submitAdminLogin(event)" class="space-y-4">
+                <div>
+                    <input type="password" id="adminPinInput" placeholder="กรอกรหัสผ่านแอดมิน" required autocomplete="current-password"
+                        class="w-full px-4 py-3 rounded-xl border border-slate-300 text-center font-bold tracking-widest focus:ring-2 focus:ring-indigo-500 outline-none select-text">
+                    <p id="adminPinError" class="hidden text-xs text-rose-600 font-semibold text-center mt-1.5">รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</p>
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" onclick="closeAdminLoginModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition">ยกเลิก</button>
+                    <button type="submit" class="flex-1 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold transition">เข้าสู่ระบบ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Modal -->
+    <div id="customModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 transform transition-all">
+            <div class="flex items-center space-x-3 mb-3">
+                <div id="modalIcon" class="w-11 h-11 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3 id="modalTitle" class="text-lg font-extrabold text-slate-900">แจ้งเตือน</h3>
+            </div>
+            <p id="modalMessage" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line mb-6"></p>
+            <div id="modalActions" class="flex justify-end space-x-2.5">
+                <button onclick="closeModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Data & Application Script -->
+    <script>
+        const EXAM_BLOCKS = {
+            1: [
+                {
+                    sectionTitle: "Part 1: Language Use (Items 1-20)",
+                    subTitle: "1.1 Situational Dialogs (Items 1-5)",
+                    directions: "Directions: Read each situation and choose the BEST answer.",
+                    questions: [
+                        {
+                            id: 1,
+                            prompt: `Neighbor: Could you water my plants while I'm away?\nYou: Of course, _______________. \n\nWhat should you say to your neighbor if you want to do so?`,
+                            options: [
+                                "we've enough water",
+                                "I'd be happy to take care of your plants",
+                                "it sounds good to have a watering system",
+                                "you can buy more plants",
+                                "you're good at growing plants"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            id: 2,
+                            prompt: `A asks, "Shall we go out for dinner at a restaurant tonight?"\nIf B wants to cook instead, how should B reply to A's suggestion?`,
+                            options: [
+                                "I'm thinking about going out.",
+                                "I think I can be a good cook someday.",
+                                "I hope to see you at the restaurant.",
+                                "I'd rather make dinner at home.",
+                                "I'll decide where to eat tonight."
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 3,
+                            prompt: `Your friend lost a phone, but someone returned it.\nWhat should you say to your friend?`,
+                            options: [
+                                "I used to lose my phone too.",
+                                "I know that person well.",
+                                "I'm glad that you've got your phone.",
+                                "It's good that you have a new phone.",
+                                "That's great you came back here."
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 4,
+                            prompt: `Some people are talking and blocking the jogging lane.\nWhat would you say to politely ask them to move for you?`,
+                            options: [
+                                "Excuse me. Can I get through?",
+                                "Watch out. This lane's being repaired.",
+                                "Pardon me. Will you start jogging soon?",
+                                "Be careful. There's something blocking the way.",
+                                "Sorry. Could we talk about this later?"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            id: 5,
+                            prompt: `You're going to meet your friend at the park, but it starts raining heavily.\nWhat would you say to postpone the meeting?`,
+                            options: [
+                                "Will we meet at the park now?",
+                                "Can we go to the park tomorrow?",
+                                "Are you afraid of the heavy rain?",
+                                "Shall we wait for more friends to join?",
+                                "Is it okay to borrow your umbrella?"
+                            ],
+                            correct: 2
+                        }
+                    ]
+                },
+                {
+                    subTitle: "1.2 Dialog Completion (Items 6-20)",
+                    directions: "Directions: Read the dialogs and choose the expression that BEST completes each sentence.",
+                    stimulusTitle: "Dialog 1: A Birthday Party (Items 6-8)",
+                    stimulusHtml: `
+                        <div class="space-y-2 text-slate-800 leading-relaxed">
+                            <p><strong>A:</strong> We should plan something for Ben's birthday.</p>
+                            <p><strong>B:</strong> Great idea! <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___6___</span>?</p>
+                            <p><strong>A:</strong> I'm thinking of a surprise party.</p>
+                            <p><strong>B:</strong> <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___7___</span>. Where do you want to have it?</p>
+                            <p><strong>A:</strong> Maybe <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___8___</span>. We can invite a few friends.</p>
+                            <p><strong>B:</strong> Awesome! I'll help with the decorations.</p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 6,
+                            prompt: "Item 6",
+                            options: [
+                                "When is his birthday",
+                                "What brings you here",
+                                "What do you have in mind",
+                                "How do you tell him",
+                                "Why do we have a party"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 7,
+                            prompt: "Item 7",
+                            options: [
+                                "That's useful",
+                                "That would be nice",
+                                "I appreciate that",
+                                "I can't make it",
+                                "I don't think so"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            id: 8,
+                            prompt: "Item 8",
+                            options: [
+                                "you can go to the party",
+                                "he wants some gifts",
+                                "you can prepare some drinks",
+                                "I buy a cake from a bakery shop",
+                                "we can party at my place"
+                            ],
+                            correct: 5
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Dialog 2: A New Restaurant (Items 9-11)",
+                    stimulusHtml: `
+                        <div class="space-y-2 text-slate-800 leading-relaxed">
+                            <p><strong>A:</strong> I heard there's a new restaurant in town. <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___9___</span>?</p>
+                            <p><strong>B:</strong> Yes, I'd love to. What kind of food do they serve?</p>
+                            <p><strong>A:</strong> It's a mix of Italian and Thai food.</p>
+                            <p><strong>B:</strong> <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___10___</span>. Do you want to go for dinner tomorrow?</p>
+                            <p><strong>A:</strong> Yeah, <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___11___</span>. I'll call to book a table.</p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 9,
+                            prompt: "Item 9",
+                            options: [
+                                "Have you tried spicy food",
+                                "Can you tell me when",
+                                "Do you eat out often",
+                                "Are you interested in going",
+                                "Do you know where it is"
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 10,
+                            prompt: "Item 10",
+                            options: [
+                                "It's a bit late",
+                                "It's quite far",
+                                "That's comfortable",
+                                "That's very kind of you",
+                                "That sounds interesting"
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 11,
+                            prompt: "Item 11",
+                            options: [
+                                "see you next week",
+                                "let's say 6 p.m.",
+                                "the food is nice",
+                                "I'm quite hungry",
+                                "it's closed tomorrow"
+                            ],
+                            correct: 2
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Dialog 3: Joining a Club (Items 12-15)",
+                    stimulusHtml: `
+                        <div class="space-y-2 text-slate-800 leading-relaxed">
+                            <p><strong>A:</strong> Have you thought about joining any clubs this year?</p>
+                            <p><strong>B:</strong> Yes. How about you? <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___12___</span>?</p>
+                            <p><strong>A:</strong> Yes, of course. I want to join the photography club.</p>
+                            <p><strong>B:</strong> Awesome! I like painting. I think I'll <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___13___</span>.</p>
+                            <p><strong>A:</strong> That's wonderful. <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___14___</span>?</p>
+                            <p><strong>B:</strong> They meet on Wednesdays after school. <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___15___</span>?</p>
+                            <p><strong>A:</strong> It's on Thursdays. We'll still have time to hang out, though.</p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 12,
+                            prompt: "Item 12",
+                            options: [
+                                "Have you decided on a club yet",
+                                "Have you thought about having a new club",
+                                "Do you want to be a club leader this year",
+                                "Do you know about our school clubs",
+                                "Do you want to join the school contest"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            id: 13,
+                            prompt: "Item 13",
+                            options: [
+                                "buy some colored pencils",
+                                "take some pictures",
+                                "go to the music club",
+                                "choose the art club",
+                                "find a lot of club members"
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 14,
+                            prompt: "Item 14",
+                            options: [
+                                "Where do we sign up for our clubs",
+                                "What time do we hang out after school",
+                                "When does the art club meet",
+                                "Which day is for the photography club",
+                                "How many hours do we have to join the clubs"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 15,
+                            prompt: "Item 15",
+                            options: [
+                                "How are your paintings",
+                                "When are you available",
+                                "What is the schedule after school",
+                                "Where should we hang out",
+                                "What day is yours"
+                            ],
+                            correct: 5
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Dialog 4: Sports Day (Items 16-20)",
+                    stimulusHtml: `
+                        <div class="space-y-2 text-slate-800 leading-relaxed">
+                            <p><strong>A:</strong> Are you ready for Sports Day next week?</p>
+                            <p><strong>B:</strong> <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___16___</span>. I need to improve my fitness to run the 400 meters race.</p>
+                            <p><strong>A:</strong> I know what you mean. I'm the same when <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___17___</span>.</p>
+                            <p><strong>B:</strong> Do you practice every day?</p>
+                            <p><strong>A:</strong> Yes, one hour after school. <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___18___</span>?</p>
+                            <p><strong>B:</strong> I run three times a week.</p>
+                            <p><strong>A:</strong> <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___19___</span>. Do you go alone or with friends?</p>
+                            <p><strong>B:</strong> Because I'm likely to give up easily, I go with my friends.</p>
+                            <p><strong>A:</strong> Good idea! Anyway, <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">___20___</span>.</p>
+                            <p><strong>B:</strong> Good luck to both of us.</p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 16,
+                            prompt: "Item 16",
+                            options: [
+                                "That looks nice",
+                                "I'm thinking",
+                                "Not really",
+                                "No problem",
+                                "I have no idea"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 17,
+                            prompt: "Item 17",
+                            options: [
+                                "joining a sports club",
+                                "going to play a new sport",
+                                "watching running races",
+                                "thinking about Sports Day",
+                                "checking the date for next week"
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 18,
+                            prompt: "Item 18",
+                            options: [
+                                "What time do you run",
+                                "Where do you normally go",
+                                "How often do you practice",
+                                "Which activity do you like to do",
+                                "When do you go to school"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 19,
+                            prompt: "Item 19",
+                            options: [
+                                "It's a big help",
+                                "That's correct",
+                                "That's interesting",
+                                "It sounds fun",
+                                "That should be enough"
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 20,
+                            prompt: "Item 20",
+                            options: [
+                                "wait for me",
+                                "let's do our best",
+                                "enjoy your time at school",
+                                "wish you good health",
+                                "look forward to meeting your friends"
+                            ],
+                            correct: 2
+                        }
+                    ]
+                }
+            ],
+
+            2: [
+                {
+                    sectionTitle: "Part 2: Writing (Items 21-40)",
+                    subTitle: "2.1 Paragraph Completion (Items 21-28)",
+                    directions: "Directions: Complete each blank with the most appropriate phrase.",
+                    stimulusTitle: "Paragraph 1 (Items 21-24)",
+                    stimulusHtml: `
+                        <p class="text-slate-800 leading-loose indent-8">
+                            Last summer, our class went to the zoo. We saw many animals, but the giraffes were 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___21___</span>. 
+                            I took many photos of them, and my friend looked forward to 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___22___</span> online. 
+                            Unfortunately, I could not post them because my phone battery was dead. Luckily, I had a power bank with me, 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___23___</span> during our lunch. 
+                            After lunch, we visited the aquarium. The penguins nearby seemed curious 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___24___</span>. 
+                            Before we left, we all promised to come back next year for another visit.
+                        </p>
+                    `,
+                    questions: [
+                        {
+                            id: 21,
+                            prompt: "Item 21",
+                            options: [
+                                "most interested in us",
+                                "interested for us most",
+                                "the most interesting in us",
+                                "the most interesting for us",
+                                "interested in us most"
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 22,
+                            prompt: "Item 22",
+                            options: [
+                                "see the photos posted",
+                                "see photos being posted",
+                                "seeing the photos posted",
+                                "seeing photos posting",
+                                "seeing the photos to post"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 23,
+                            prompt: "Item 23",
+                            options: [
+                                "so that I could have charged it",
+                                "so that it could have charged",
+                                "so it could have been charged",
+                                "so I could have it charged",
+                                "so I could charge it"
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 24,
+                            prompt: "Item 24",
+                            options: [
+                                "kept us on looking",
+                                "keeping us looking on",
+                                "and kept looking at us",
+                                "and kept us looking at",
+                                "and keeping looking at us"
+                            ],
+                            correct: 3
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Paragraph 2 (Items 25-28)",
+                    stimulusHtml: `
+                        <p class="text-slate-800 leading-loose indent-8">
+                            Recently, our school arranged a trip to the countryside to study farming. We first visited a rice field, where we 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___25___</span> rice. 
+                            The farmers explained the planting process and 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___26___</span>. 
+                            During lunch, I asked a farmer 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___27___</span>, 
+                            and he told me it depends on the weather and soil quality. Then, we went to a fruit farm. Many students found the fruit farm exciting because 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___28___</span>. 
+                            Before we left, our teacher reminded us to take lots of photos for our project. It was a day full of discovery and fun.
+                        </p>
+                    `,
+                    questions: [
+                        {
+                            id: 25,
+                            prompt: "Item 25",
+                            options: [
+                                "learned how do farmers grow",
+                                "learned how farmers grow",
+                                "learned how were farmers growing",
+                                "were learning how farmers grew",
+                                "were learning how farmers were growing"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            id: 26,
+                            prompt: "Item 26",
+                            options: [
+                                "showed us any traditional tools happily",
+                                "showed us some traditional happily tools",
+                                "happily showed us few traditional tools",
+                                "happily showed us any traditional tools",
+                                "happily showed us some traditional tools"
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 27,
+                            prompt: "Item 27",
+                            options: [
+                                "how long does it take for rice to growing",
+                                "how long does it take for rice to grow",
+                                "how long it takes for rice to grow",
+                                "it takes how long for rice to growing",
+                                "it is taking how long for rice to growing"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 28,
+                            prompt: "Item 28",
+                            options: [
+                                "before they never saw too many mango trees",
+                                "before they have never seen too many mango trees",
+                                "before they had never seen too many mango trees",
+                                "they have never seen so many mango trees before",
+                                "they had never seen so many mango trees before"
+                            ],
+                            correct: 5
+                        }
+                    ]
+                },
+                {
+                    subTitle: "2.2 Sentence Ordering (Items 29-35)",
+                    directions: "Directions: Rearrange the sentences A-E to form complete and logical passages.",
+                    questions: [
+                        {
+                            id: 29,
+                            type: "ordering",
+                            situation: "Situation: A Morning Walk",
+                            sentences: {
+                                A: "After 30 minutes of walking, I feel fresh and ready for the day.",
+                                B: "Those dogs and their owners look happy.",
+                                C: "I like to go for a walk early in the morning.",
+                                D: "As I walk, I sometimes see people walking their dogs.",
+                                E: "During that time, the air is fresh, and the streets are quiet."
+                            },
+                            correctOrder: ["C", "E", "D", "B", "A"]
+                        },
+                        {
+                            id: 30,
+                            type: "ordering",
+                            situation: "Situation: Visiting a Friend's House",
+                            sentences: {
+                                A: "Her mom gave us snacks during the movie.",
+                                B: "She showed me her house and introduced me to her family.",
+                                C: "I had a great time and hope to visit again.",
+                                D: "On Friday evening, I visited my friend's house.",
+                                E: "We then watched a movie and talked."
+                            },
+                            correctOrder: ["D", "B", "E", "A", "C"]
+                        },
+                        {
+                            id: 31,
+                            type: "ordering",
+                            situation: "Situation: Buying a Gift",
+                            sentences: {
+                                A: "My brother's birthday is next week, so I went to a mall for a gift.",
+                                B: "I paid and asked to have it wrapped.",
+                                C: "I looked around many stores at the mall.",
+                                D: "I hope he will like the gift when he unwraps it.",
+                                E: "I finally found a book about cars."
+                            },
+                            correctOrder: ["A", "C", "E", "B", "D"]
+                        },
+                        {
+                            id: 32,
+                            type: "ordering",
+                            situation: "Situation: Getting a Haircut",
+                            sentences: {
+                                A: "I told her to cut it even shorter.",
+                                B: "I felt happy with my fresh new look.",
+                                C: "Last weekend, I went for a haircut.",
+                                D: "When she finished cutting, I looked in the mirror and smiled.",
+                                E: "While she was cutting my hair, she asked me if it was short enough."
+                            },
+                            correctOrder: ["C", "E", "A", "D", "B"]
+                        },
+                        {
+                            id: 33,
+                            type: "ordering",
+                            situation: "Situation: Trying a New Recipe",
+                            sentences: {
+                                A: "The kitchen smelled good while it was cooking.",
+                                B: "Yesterday, I cooked a new pasta dish for dinner.",
+                                C: "I will make it again next week.",
+                                D: "I followed a simple online recipe.",
+                                E: "When it was done, it tasted so good."
+                            },
+                            correctOrder: ["B", "D", "A", "E", "C"]
+                        },
+                        {
+                            id: 34,
+                            type: "ordering",
+                            situation: "Situation: Seeing a Doctor",
+                            sentences: {
+                                A: "At the clinic, I waited 20 minutes to get to see the doctor.",
+                                B: "I thanked her and went home to relax.",
+                                C: "She gave me medicine and told me to rest.",
+                                D: "I had a fever, so I needed to see a doctor.",
+                                E: "The doctor said something was wrong with my throat."
+                            },
+                            correctOrder: ["D", "A", "E", "C", "B"]
+                        },
+                        {
+                            id: 35,
+                            type: "ordering",
+                            situation: "Situation: Salmon Steak for the First Time",
+                            sentences: {
+                                A: "When I tried it, it was so tasty.",
+                                B: "Because I had never been there before, I didn't know what to order.",
+                                C: "She suggested that I try the salmon steak.",
+                                D: "Linda invited me to a new restaurant near our school.",
+                                E: "It was so delicious that I will order the salmon steak again next time."
+                            },
+                            correctOrder: ["D", "B", "C", "A", "E"]
+                        }
+                    ]
+                },
+                {
+                    subTitle: "2.3 Paragraph Organization (Items 36-40)",
+                    directions: "Directions: Choose the BEST answer.",
+                    stimulusTitle: "Passage for Items 36-40",
+                    stimulusHtml: `
+                        <p class="text-slate-800 leading-loose">
+                            Why is our sense of smell so important? First, smell is closely linked to memories and emotions. The smells you experience can play an important role in remembering your 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___36___</span> from the past. Some smells can 
+                            <span class="underline decoration-2 decoration-emerald-600 font-semibold">evoke positive memories</span> (37) and create an emotional connection with your environment. This means that a pleasant smell can create a sense of comfort. Second, smell has effects on your health. A poor sense of smell can badly affect your eating habits. Smell can change the way we notice time. Losing the ability to smell is also linked to an increased risk of illnesses. 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___38___</span>, a good sense of smell can have a positive effect on your ability to work. In work environments, certain scents such as lemon and orange, can 
+                            <span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-bold rounded">___39___</span>, which helps you get more work done. Lastly, smell and taste are related. That is, your mouth tastes the food, but your sense of smell affects the flavor. If you cannot smell, your ability to experience the flavor may be limited.
+                        </p>
+                    `,
+                    questions: [
+                        {
+                            id: 36,
+                            prompt: `Which choice would best complete the part, "The smells you experience can play an important role in remembering your _________ from the past"?`,
+                            options: [
+                                "work environments",
+                                "feelings",
+                                "eating habits",
+                                "passwords",
+                                "telephone numbers"
+                            ],
+                            correct: 2
+                        },
+                        {
+                            id: 37,
+                            prompt: `How can the part "evoke positive memories" be rewritten, keeping the same meaning?`,
+                            options: [
+                                "look at your life",
+                                "think about things better",
+                                "question your success",
+                                "recall pleasant experiences",
+                                "create your own happiness"
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 38,
+                            prompt: `What is the best choice to complete the blank (38)?`,
+                            options: [
+                                "As a result",
+                                "For example",
+                                "Moreover",
+                                "Similarly",
+                                "Definitely"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 39,
+                            prompt: `Which choice would best follow the part "In work environments, certain scents such as lemon and orange, can _________"?`,
+                            options: [
+                                "improve concentration and focus",
+                                "make you think about other fruits",
+                                "help you sleep well",
+                                "change the way you take care of yourself",
+                                "create a sense of friendship"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            id: 40,
+                            prompt: `Which sentence should NOT be in the paragraph?`,
+                            options: [
+                                "This means that a pleasant smell can create a sense of comfort.",
+                                "A poor sense of smell can badly affect your eating habits.",
+                                "Smell can change the way we notice time.",
+                                "Lastly, smell and taste are related.",
+                                "If you cannot smell, your ability to experience the flavor may be limited."
+                            ],
+                            correct: 3
+                        }
+                    ]
+                }
+            ],
+
+            3: [
+                {
+                    sectionTitle: "Part 3: Reading (Items 41-60)",
+                    subTitle: "3.1 Graphic Presentations (Items 41-50)",
+                    directions: "Directions: Read the following figures and choose the BEST answer for each question.",
+                    stimulusTitle: "Figure 1: A Review (Item 41)",
+                    stimulusHtml: `
+                        <div class="max-w-md mx-auto bg-white border-2 border-slate-800 rounded-xl p-5 shadow-sm">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-11 h-11 rounded-full bg-slate-200 border border-slate-400 flex items-center justify-center text-slate-700 font-bold text-lg">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold text-slate-900 text-base">Amanda Bledel</div>
+                                    <div class="text-amber-500 text-sm tracking-widest">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star text-slate-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-slate-800 text-sm leading-relaxed">
+                                Very nice place where you can enjoy the best food. I was there with my friends and we would like to come again.
+                            </p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 41,
+                            prompt: "What is the review about?",
+                            options: [
+                                "A trip",
+                                "A recipe",
+                                "A restaurant",
+                                "A hotel room",
+                                "A cooking class"
+                            ],
+                            correct: 3
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Figure 2: A Product Label (Items 42-43)",
+                    stimulusHtml: `
+                        <div class="max-w-lg mx-auto bg-white border-2 border-slate-800 p-5 rounded-xl shadow-sm space-y-3 text-sm text-slate-900">
+                            <div>
+                                <span class="font-extrabold underline tracking-wide">DIRECTIONS:</span>
+                                <p class="mt-0.5">Put 1-2 tablespoons into a sink full of water. Soak the cookware for 5 minutes, then wash and rinse.</p>
+                            </div>
+                            <div>
+                                <span class="font-extrabold underline tracking-wide">WARNINGS:</span>
+                                <p class="mt-0.5">For external use only. Avoid eyes, ears and mouth. Keep away from young children. Store below 30°C.</p>
+                            </div>
+                            <div>
+                                <span class="font-extrabold underline tracking-wide">FIRST AID:</span>
+                                <p class="mt-0.5">In case of eye contact, wash with water. If swallowed, contact your doctor.</p>
+                            </div>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 42,
+                            prompt: "According to the product label, which is NOT true?",
+                            options: [
+                                "This product is designed mostly for adults.",
+                                "You should consult a doctor before using this product.",
+                                "This product can be kept at 20°C.",
+                                "You can use this product with water.",
+                                "This product cannot come in contact with the eyes."
+                            ],
+                            correct: 2
+                        },
+                        {
+                            id: 43,
+                            prompt: "What is this product likely to be used for?",
+                            options: [
+                                "Washing dishes",
+                                "Washing cars",
+                                "Cleaning floors",
+                                "Cleaning windows",
+                                "Washing clothes"
+                            ],
+                            correct: 1
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Figure 3: Train Information (Items 44-47)",
+                    stimulusHtml: `
+                        <div class="max-w-2xl mx-auto bg-slate-900 text-amber-400 border-4 border-slate-700 rounded-xl overflow-hidden shadow-lg digital-board">
+                            <div class="bg-slate-950 px-5 py-3 flex justify-between items-center border-b border-slate-700 text-base sm:text-lg font-bold">
+                                <span>WELCOME TO D STATION</span>
+                                <span class="bg-slate-800 px-3 py-0.5 rounded text-emerald-400">14:53:15</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                    <thead>
+                                        <tr class="bg-slate-800 text-slate-200 border-b border-slate-700">
+                                            <th class="py-2.5 px-3">Arrival Time</th>
+                                            <th class="py-2.5 px-3 text-center">Number</th>
+                                            <th class="py-2.5 px-3 text-center">Departing to</th>
+                                            <th class="py-2.5 px-3">Status</th>
+                                            <th class="py-2.5 px-3 text-center">Track</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800 font-bold">
+                                        <tr>
+                                            <td class="py-2.5 px-3">14:02</td>
+                                            <td class="py-2.5 px-3 text-center">36</td>
+                                            <td class="py-2.5 px-3 text-center">A</td>
+                                            <td class="py-2.5 px-3 text-orange-400">1 hr 47 mins DELAYED</td>
+                                            <td class="py-2.5 px-3 text-center">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 px-3">14:55</td>
+                                            <td class="py-2.5 px-3 text-center">82</td>
+                                            <td class="py-2.5 px-3 text-center">B</td>
+                                            <td class="py-2.5 px-3 text-emerald-400">APPROACHING</td>
+                                            <td class="py-2.5 px-3 text-center">4</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 px-3">15:07</td>
+                                            <td class="py-2.5 px-3 text-center">57</td>
+                                            <td class="py-2.5 px-3 text-center">C</td>
+                                            <td class="py-2.5 px-3">ON TIME</td>
+                                            <td class="py-2.5 px-3 text-center">2</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 px-3">15:20</td>
+                                            <td class="py-2.5 px-3 text-center">4</td>
+                                            <td class="py-2.5 px-3 text-center">E</td>
+                                            <td class="py-2.5 px-3">ON TIME</td>
+                                            <td class="py-2.5 px-3 text-center">7</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2.5 px-3">15:55</td>
+                                            <td class="py-2.5 px-3 text-center">12</td>
+                                            <td class="py-2.5 px-3 text-center">F</td>
+                                            <td class="py-2.5 px-3 text-red-400">CANCELLED</td>
+                                            <td class="py-2.5 px-3 text-center">-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="bg-slate-950 px-4 py-2.5 text-center text-xs text-slate-200 border-t border-slate-700 space-y-0.5">
+                                <p>PASSENGERS, PLEASE WATCH YOUR BELONGINGS.</p>
+                                <p class="text-amber-300">SECURITY WILL REMOVE ANY UNATTENDED BAGS.</p>
+                            </div>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 44,
+                            prompt: "Which train is NOT in service?",
+                            options: [
+                                "Number 82",
+                                "Number 57",
+                                "Number 36",
+                                "Number 12",
+                                "Number 4"
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 45,
+                            prompt: "Which train is about to arrive at the station?",
+                            options: [
+                                "Number 82",
+                                "Number 57",
+                                "Number 36",
+                                "Number 12",
+                                "Number 4"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            id: 46,
+                            prompt: `What is "unattended bags" closest in meaning to?`,
+                            options: [
+                                "Bags that are kept without permission",
+                                "Bags that are full of valuable things",
+                                "Bags that are left alone",
+                                "Bags that are quite large",
+                                "Bags that are very heavy"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 47,
+                            prompt: "According to the information, which is TRUE?",
+                            options: [
+                                "Passengers traveling to A will arrive on time.",
+                                "Passengers can leave their bags at the station.",
+                                "Passengers going to E have to wait at track 4.",
+                                "Train number 57 will arrive at the station before train number 4.",
+                                "Train number 36 takes 1 hour and 47 minutes to arrive at its final destination."
+                            ],
+                            correct: 4
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Figure 4: A Graph (Items 48-50)",
+                    stimulusHtml: `
+                        <div class="max-w-2xl mx-auto bg-white border-2 border-slate-300 rounded-xl p-4 shadow-sm">
+                            <h4 class="text-center font-bold text-slate-800 text-base sm:text-lg mb-2">Daily Sleep Duration VS Daily Internet Use (Hours)</h4>
+                            <svg viewBox="0 0 600 310" class="w-full h-auto overflow-visible">
+                                <g stroke="#cbd5e1" stroke-width="1">
+                                    <line x1="60" y1="240" x2="560" y2="240" stroke="#475569" stroke-width="1.5"/>
+                                    <line x1="60" y1="200" x2="560" y2="200"/>
+                                    <line x1="60" y1="160" x2="560" y2="160"/>
+                                    <line x1="60" y1="120" x2="560" y2="120"/>
+                                    <line x1="60" y1="80" x2="560" y2="80"/>
+                                    <line x1="60" y1="40" x2="560" y2="40"/>
+                                </g>
+                                <g fill="#334155" font-size="13" font-weight="bold" text-anchor="end">
+                                    <text x="48" y="245">0</text>
+                                    <text x="48" y="205">2</text>
+                                    <text x="48" y="165">4</text>
+                                    <text x="48" y="125">6</text>
+                                    <text x="48" y="85">8</text>
+                                    <text x="48" y="45">10</text>
+                                </g>
+                                <g fill="#334155" font-size="13" font-weight="bold" text-anchor="middle">
+                                    <text x="100" y="265">2018</text>
+                                    <text x="188" y="265">2019</text>
+                                    <text x="276" y="265">2020</text>
+                                    <text x="364" y="265">2021</text>
+                                    <text x="452" y="265">2022</text>
+                                    <text x="540" y="265">2023</text>
+                                </g>
+                                <polyline fill="none" stroke="#3b82f6" stroke-width="3.5" stroke-dasharray="8,5"
+                                    points="100,60 188,80 276,100 364,110 452,120 540,130" />
+                                <polyline fill="none" stroke="#2563eb" stroke-width="3.5"
+                                    points="100,200 188,140 276,120 364,100 452,90 540,70" />
+                                <g transform="translate(150, 285)" font-size="12" font-weight="600" fill="#1e293b">
+                                    <line x1="0" y1="8" x2="40" y2="8" stroke="#3b82f6" stroke-width="3" stroke-dasharray="6,4"/>
+                                    <text x="48" y="12">Daily sleep duration</text>
+                                    <line x1="190" y1="8" x2="230" y2="8" stroke="#2563eb" stroke-width="3"/>
+                                    <text x="238" y="12">Daily internet use</text>
+                                </g>
+                            </svg>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 48,
+                            prompt: "Between which two years did daily internet use increase the most?",
+                            options: [
+                                "2018-2019",
+                                "2019-2020",
+                                "2020-2021",
+                                "2021-2022",
+                                "2022-2023"
+                            ],
+                            correct: 1
+                        },
+                        {
+                            id: 49,
+                            prompt: "Which year shows the biggest difference between internet use and sleep hours?",
+                            options: [
+                                "2023",
+                                "2022",
+                                "2020",
+                                "2019",
+                                "2018"
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 50,
+                            prompt: "What is the likely future trend about sleep hours and internet use?",
+                            options: [
+                                "Both daily sleep duration and internet use will increase.",
+                                "Both daily internet use and sleep duration will be the same.",
+                                "Daily sleep duration will decrease, but internet use will increase.",
+                                "Daily internet use will decrease, but sleep duration will vary.",
+                                "Daily sleep duration will decrease, but internet use will be the same."
+                            ],
+                            correct: 3
+                        }
+                    ]
+                },
+                {
+                    subTitle: "3.2 Passage Reading (Items 51-60)",
+                    directions: "Directions: Choose the BEST answer.",
+                    stimulusTitle: "Passage 1 (Items 51-55): The Accidental Star",
+                    stimulusHtml: `
+                        <div class="text-slate-800 leading-loose space-y-2">
+                            <h4 class="font-bold text-center text-lg text-slate-900">The Accidental Star</h4>
+                            <p class="indent-8">
+                                Opal had always been shy. She hated speaking in front of people and preferred to stay in the background. One day, her drama teacher asked her to help with the school show—not as an actress, but as a backstage assistant. Opal agreed. On the night of the performance, the main actress got sick just a few hours before the show. The teacher looked around. Then, she said, "Opal, you know all her <span class="underline font-bold">lines</span>. You have to go on stage." Opal had a panicked look on her face. But with everyone watching and time running out, she said, "Yes." Her hands were shaking, but once the lights came on, something changed. She delivered every line perfectly. The audience clapped loudly at the end. The next day, people were still talking about her. Opal never planned to be a star—but sometimes, life surprises you.
+                            </p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 51,
+                            prompt: "Why was Opal originally involved in the show?",
+                            options: [
+                                "She wanted to become an actress.",
+                                "She designed the costumes.",
+                                "She created the school show.",
+                                "She helped backstage.",
+                                "She wrote the script."
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 52,
+                            prompt: `What does "lines" mean in the story?`,
+                            options: [
+                                "The stage lights",
+                                "The audience",
+                                "The rules for acting on stage",
+                                "The actors' costumes",
+                                "The words the main actress will say"
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 53,
+                            prompt: `How did she feel when "Opal had a panicked look on her face"?`,
+                            options: [
+                                "Very tired",
+                                "Very excited",
+                                "Very scared",
+                                "Very bored",
+                                "Very angry"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 54,
+                            prompt: "Which of the following is TRUE according to the story?",
+                            options: [
+                                "Opal practiced every day to be in the show.",
+                                "The teacher asked Opal to replace an actress during the show.",
+                                "Opal forgot her costume but still performed.",
+                                "The audience did not enjoy Opal's performance.",
+                                "Opal was not supposed to act at first."
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 55,
+                            prompt: "What do we learn about Opal from the story?",
+                            options: [
+                                "She will never act again.",
+                                "She discovered her hidden talent.",
+                                "She still prefers staying in the background.",
+                                "She plans to be a drama teacher.",
+                                "She enjoyed watching people."
+                            ],
+                            correct: 2
+                        }
+                    ]
+                },
+                {
+                    stimulusTitle: "Passage 2 (Items 56-60): The Strange Ways Animals Sleep",
+                    stimulusHtml: `
+                        <div class="text-slate-800 leading-loose space-y-2">
+                            <h4 class="font-bold text-center text-lg text-slate-900">The Strange Ways Animals Sleep</h4>
+                            <p class="indent-8">
+                                Did you know some animals sleep in very unusual ways? Giraffes, for example, only sleep about 30 minutes a day, usually in short naps. Dolphins are even stranger. They rest with one eye open and with only half their brain asleep. This helps them stay safe in the water. Some birds, like swifts, can nap while flying long distances. Bats hang upside down and sleep during the day, waking at night. Bears sleep in a different way. They <span class="underline font-bold">hibernate</span> during the winter and can sleep for months without food. These sleeping habits might seem strange to us, but for animals, they are normal. In fact, it is possible that we are the ones with unusual sleep patterns!
+                            </p>
+                        </div>
+                    `,
+                    questions: [
+                        {
+                            id: 56,
+                            prompt: "Why do dolphins sleep with one eye open?",
+                            options: [
+                                "They give the other eye a rest.",
+                                "They need to stay alert for danger.",
+                                "They save energy at night.",
+                                "They watch other dolphins sleep.",
+                                "They try to keep themselves awake."
+                            ],
+                            correct: 2
+                        },
+                        {
+                            id: 57,
+                            prompt: `What does the word "hibernate" most likely mean in this passage?`,
+                            options: [
+                                "Sleep while standing",
+                                "Sleep in a group",
+                                "Sleep for a long time",
+                                "Sleep upside down",
+                                "Sleep feeling hungry"
+                            ],
+                            correct: 3
+                        },
+                        {
+                            id: 58,
+                            prompt: "Which of the following is TRUE according to the passage?",
+                            options: [
+                                "Bears do not have enough to eat in winter.",
+                                "Swifts are not used to long flights.",
+                                "Dolphins' brains are not always alert.",
+                                "Bats are active at night.",
+                                "Giraffes' naps are longer at night."
+                            ],
+                            correct: 4
+                        },
+                        {
+                            id: 59,
+                            prompt: "What does the last sentence suggest?",
+                            options: [
+                                "Humans should learn to sleep like animals.",
+                                "Humans always sleep more than needed.",
+                                "Humans do not need to change their sleep habits.",
+                                "Humans are the only creatures that sleep at night.",
+                                "Humans may not sleep in the same way as most animals."
+                            ],
+                            correct: 5
+                        },
+                        {
+                            id: 60,
+                            prompt: "What do we learn about animal sleeping habits from this passage?",
+                            options: [
+                                "There is no single sleep pattern in animals.",
+                                "Animals can stay alive without sleeping.",
+                                "Animals should stop sleeping during the day.",
+                                "Most animals sleep in the same way.",
+                                "Many animals sleep for eight hours."
+                            ],
+                            correct: 1
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // =========================================================================
+        // ใส่ลิงก์ Google Apps Script Web App URL ของคุณครูตรงนี้ได้เลยครับ (ถ้าต้องการฝังในโค้ดถาวร)
+        // =========================================================================
+        const DEFAULT_GOOGLE_SHEET_URL = ""; 
+
+        let currentStudent = null; 
+        let activePart = 1;
+        let isReviewMode = false;
+        let isAdminAuthenticated = false;
+        const ADMIN_PASSCODE = "Mimi0533";
+
+        let userAnswers = { 1: {}, 2: {}, 3: {} };
+        let partScores = { 1: null, 2: null, 3: null };
+        window.allRecords = [];
+
+        // Cloud Fallback Bin (ใช้งานได้ทันทีแม้ยังไม่ได้ใส่ลิงก์ Google Sheet)
+        const CLOUD_FALLBACK_URL = "https://api.npoint.io/46f88cb077d23aef5421";
+
+        function getActiveGoogleSheetUrl() {
+            const savedUrl = localStorage.getItem('onet_m6_custom_gsheet_url');
+            return (savedUrl && savedUrl.trim() !== "") ? savedUrl.trim() : DEFAULT_GOOGLE_SHEET_URL;
+        }
+
+        function setSyncIndicator(state, message) {
+            const badge = document.getElementById('syncStatusBadge');
+            const dot = document.getElementById('syncDot');
+            const text = document.getElementById('syncText');
+            if (!badge || !dot || !text) return;
+
+            badge.classList.remove('hidden');
+            text.textContent = message;
+            if (state === 'syncing') {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-amber-400 border border-slate-900 animate-ping";
+                badge.className = "hidden sm:flex items-center space-x-1.5 bg-amber-100 border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-2.5 py-1 rounded-xl text-[11px] font-extrabold text-slate-900";
+            } else if (state === 'ok') {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 border border-slate-900";
+                badge.className = "hidden sm:flex items-center space-x-1.5 bg-white border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-2.5 py-1 rounded-xl text-[11px] font-extrabold text-slate-900";
+            } else {
+                dot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 border border-slate-900";
+                badge.className = "hidden sm:flex items-center space-x-1.5 bg-rose-100 border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] px-2.5 py-1 rounded-xl text-[11px] font-extrabold text-slate-900";
+            }
+        }
+
+        function fetchWithTimeout(url, options = {}, timeoutMs = 4500) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeoutMs);
+            return fetch(url, { ...options, signal: controller.signal })
+                .finally(() => clearTimeout(timer));
+        }
+
+        function updateGsheetBannerUI() {
+            const url = getActiveGoogleSheetUrl();
+            const titleEl = document.getElementById('gsheetStatusTitle');
+            const descEl = document.getElementById('gsheetStatusDesc');
+            const inputEl = document.getElementById('inputGoogleSheetUrl');
+            if (inputEl) inputEl.value = url;
+
+            if (url) {
+                if (titleEl) titleEl.innerHTML = `<i class="fas fa-check-circle text-emerald-600 mr-1"></i> เชื่อมต่อกับ Google Sheets ของคุณครูเรียบร้อยแล้ว`;
+                if (descEl) descEl.textContent = `ลิงก์ที่ใช้งาน: ${url.substring(0, 55)}...`;
+            } else {
+                if (titleEl) titleEl.textContent = `สถานะฐานข้อมูล: ใช้ระบบ Cloud อัตโนมัติ (สามารถผูก Google Sheets เพิ่มได้)`;
+                if (descEl) descEl.textContent = `กดปุ่ม "ตั้งค่าเชื่อม Google Sheet" ด้านบน เพื่อนำลิงก์ Google Sheets ของคุณครูมาผูกให้คะแนนวิ่งเข้าชีตโดยตรง`;
+            }
+        }
+
+        async function fetchCloudRecords(showAlert = false) {
+            setSyncIndicator('syncing', 'กำลังซิงค์ข้อมูล...');
+            const gsheetUrl = getActiveGoogleSheetUrl();
+            let loadedFromRemote = false;
+
+            // Load local cache immediately first so UI is instant
+            try {
+                const localRaw = localStorage.getItem('onet_m6_fallback_records');
+                if (localRaw) {
+                    const localArr = JSON.parse(localRaw);
+                    if (Array.isArray(localArr) && window.allRecords.length === 0) {
+                        window.allRecords = localArr;
+                        renderScoreboardTable();
+                    }
+                }
+            } catch (e) {}
+
+            // 1. Try Google Sheets first if configured (with fast timeout)
+            if (gsheetUrl) {
+                try {
+                    const res = await fetchWithTimeout(gsheetUrl + "?action=read&t=" + Date.now(), {}, 5000);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (Array.isArray(data)) {
+                            window.allRecords = data;
+                            loadedFromRemote = true;
+                        } else if (data && Array.isArray(data.records)) {
+                            window.allRecords = data.records;
+                            loadedFromRemote = true;
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Google Sheet fetch error, falling back to Cloud DB", err);
+                }
+            }
+
+            // 2. Fallback to Cloud JSON DB (with fast timeout)
+            if (!loadedFromRemote) {
+                try {
+                    const response = await fetchWithTimeout(CLOUD_FALLBACK_URL + "?t=" + Date.now(), {}, 3500);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (Array.isArray(data)) {
+                            window.allRecords = data;
+                            loadedFromRemote = true;
+                        } else if (data && Array.isArray(data.records)) {
+                            window.allRecords = data.records;
+                            loadedFromRemote = true;
+                        }
+                    }
+                } catch (err) {}
+            }
+
+            // 3. Merge with local device cache so current student never loses progress
+            try {
+                const localRaw = localStorage.getItem('onet_m6_fallback_records');
+                if (localRaw) {
+                    const localArr = JSON.parse(localRaw);
+                    if (Array.isArray(localArr)) {
+                        localArr.forEach(localRec => {
+                            const existingIdx = window.allRecords.findIndex(r => r.docKey === localRec.docKey);
+                            if (existingIdx === -1) {
+                                window.allRecords.push(localRec);
+                            } else if ((localRec.updatedAt || 0) > (window.allRecords[existingIdx].updatedAt || 0)) {
+                                window.allRecords[existingIdx] = localRec;
+                            }
+                        });
+                    }
+                }
+                localStorage.setItem('onet_m6_fallback_records', JSON.stringify(window.allRecords));
+            } catch (e) {}
+
+            setSyncIndicator('ok', gsheetUrl ? 'ซิงค์ Google Sheet แล้ว' : 'พร้อมบันทึก');
+            updateGsheetBannerUI();
+            renderScoreboardTable();
+
+            if (showAlert) {
+                showModal("อัปเดตข้อมูลสำเร็จ", `ดึงข้อมูลนักเรียนล่าสุดเรียบร้อยแล้ว (ทั้งหมด ${window.allRecords.length} รายชื่อ)`, [
+                    { label: "ตกลง", class: "bg-emerald-400 text-slate-950 brutal-btn", action: closeModal }
+                ]);
+            }
+        }
+
+        async function saveCloudRecords(singleRecord = null) {
+            setSyncIndicator('syncing', 'กำลังบันทึก...');
+            // Save to local backup immediately (0ms)
+            try {
+                localStorage.setItem('onet_m6_fallback_records', JSON.stringify(window.allRecords));
+            } catch (e) {}
+
+            const gsheetUrl = getActiveGoogleSheetUrl();
+            const tasks = [];
+
+            // 1. Send to Google Sheets Web App in parallel
+            if (gsheetUrl && singleRecord) {
+                tasks.push(
+                    fetchWithTimeout(gsheetUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify(singleRecord)
+                    }, 6000).catch(err => console.warn("Google Sheets POST warning:", err))
+                );
+            }
+
+            // 2. Sync to Cloud JSON Bin in parallel
+            tasks.push(
+                fetchWithTimeout(CLOUD_FALLBACK_URL, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(window.allRecords)
+                }, 4000).catch(() => {})
+            );
+
+            await Promise.allSettled(tasks);
+            setSyncIndicator('ok', 'บันทึกคะแนนเรียบร้อย');
+        }
+
+        // Load records on startup
+        fetchCloudRecords();
+
+        function toggleGoogleSheetSetupModal() {
+            updateGsheetBannerUI();
+            const modal = document.getElementById('gsheetModal');
+            if (modal) modal.classList.toggle('hidden');
+        }
+
+        function saveCustomGoogleSheetUrl() {
+            const inputEl = document.getElementById('inputGoogleSheetUrl');
+            const url = inputEl ? inputEl.value.trim() : "";
+            localStorage.setItem('onet_m6_custom_gsheet_url', url);
+            updateGsheetBannerUI();
+            toggleGoogleSheetSetupModal();
+            fetchCloudRecords(true);
+        }
+
+        function copyAppsScriptCode() {
+            const scriptCode = `function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var rows = sheet.getDataRange().getValues();
+  var records = [];
+  for (var i = 1; i < rows.length; i++) {
+    var r = rows[i];
+    if (!r[0]) continue;
+    records.push({
+      docKey: String(r[0]),
+      room: String(r[1]),
+      number: Number(r[2]),
+      name: String(r[3]),
+      part1Score: r[4] === "" ? null : Number(r[4]),
+      part2Score: r[5] === "" ? null : Number(r[5]),
+      part3Score: r[6] === "" ? null : Number(r[6]),
+      totalScore: Number(r[7] || 0),
+      savedAnswers: String(r[8] || "{}"),
+      updatedAt: Number(r[9] || 0)
+    });
+  }
+  return ContentService.createTextOutput(JSON.stringify(records))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(["รหัสอ้างอิง", "ห้องเรียน", "เลขที่", "ชื่อ-นามสกุล", "Part 1 (20)", "Part 2 (20)", "Part 3 (20)", "คะแนนรวม (60)", "ข้อมูลคำตอบ", "Timestamp", "เวลาอัปเดตล่าสุด"]);
+  }
+  var data = JSON.parse(e.postData.contents);
+  var rows = sheet.getDataRange().getValues();
+  var foundRow = -1;
+  for (var i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]) === String(data.docKey)) {
+      foundRow = i + 1;
+      break;
+    }
+  }
+  var rowValues = [
+    data.docKey,
+    data.room,
+    data.number,
+    data.name,
+    data.part1Score !== null && data.part1Score !== undefined ? data.part1Score : "",
+    data.part2Score !== null && data.part2Score !== undefined ? data.part2Score : "",
+    data.part3Score !== null && data.part3Score !== undefined ? data.part3Score : "",
+    data.totalScore || 0,
+    data.savedAnswers || "{}",
+    data.updatedAt || Date.now(),
+    new Date().toLocaleString("th-TH")
+  ];
+  if (foundRow > 0) {
+    sheet.getRange(foundRow, 1, 1, rowValues.length).setValues([rowValues]);
+  } else {
+    sheet.appendRow(rowValues);
+  }
+  return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
+            navigator.clipboard.writeText(scriptCode).then(() => {
+                const btnText = document.getElementById('copyScriptBtnText');
+                if (btnText) {
+                    btnText.textContent = "คัดลอกโค้ดสำเร็จแล้ว! นำไปวางใน Apps Script ได้เลย";
+                    setTimeout(() => {
+                        btnText.textContent = "คัดลอกโค้ด Apps Script สำหรับวางใน Google Sheet";
+                    }, 3500);
+                }
+            });
+        }
+
+        let cheatWarnings = 0;
+        let isExamActive = false;
+
+        document.addEventListener("visibilitychange", () => {
+            if (isExamActive && document.hidden) {
+                handleCheatViolation("ตรวจพบการออกจากหน้าจอข้อสอบหรือสลับแท็บเบราว์เซอร์!");
+            }
+        });
+
+        window.addEventListener("blur", () => {
+            if (isExamActive) {
+                handleCheatViolation("ตรวจพบการคลิกออกจากหน้าต่างสอบ!");
+            }
+        });
+
+        function handleCheatViolation(reason) {
+            if (!isExamActive) return;
+            cheatWarnings++;
+            const countEl = document.getElementById('cheatCountText');
+            if (countEl) countEl.textContent = cheatWarnings;
+
+            if (cheatWarnings >= 2) {
+                showModal(
+                    "⚠️ เตือน: ตรวจพบการออกนอกหน้าจอครบ 2 ครั้ง",
+                    `${reason}\n\nระบบได้ส่งคำตอบและบันทึกคะแนนปัจจุบันของคุณโดยอัตโนมัติ`,
+                    [{ label: "รับทราบและออก", class: "bg-rose-600 text-white", action: () => { closeModal(); finalizePartSubmission(true); } }]
+                );
+            } else {
+                showModal(
+                    "⚠️ คำเตือนระบบควบคุมการสอบ",
+                    `${reason}\n\nคำเตือนครั้งที่ ${cheatWarnings}/2: กรุณาอยู่บนหน้าจอข้อสอบ หากสลับออกครบ 2 ครั้ง ระบบจะส่งข้อสอบอัตโนมัติทันที!`,
+                    [{ label: "กลับไปทำข้อสอบต่อ", class: "bg-indigo-600 text-white", action: closeModal }]
+                );
+            }
+        }
+
+        function requestFullscreenMode() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(err => console.log(err));
+            }
+        }
+
+        function handleAdminAccessClick() {
+            if (isAdminAuthenticated) {
+                switchView('scoreboard');
+            } else {
+                const pinInput = document.getElementById('adminPinInput');
+                if (pinInput) pinInput.value = '';
+                const pinError = document.getElementById('adminPinError');
+                if (pinError) pinError.classList.add('hidden');
+                const modal = document.getElementById('adminLoginModal');
+                if (modal) modal.classList.remove('hidden');
+                setTimeout(() => { if (pinInput) pinInput.focus(); }, 100);
+            }
+        }
+
+        function closeAdminLoginModal() {
+            const modal = document.getElementById('adminLoginModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function submitAdminLogin(e) {
+            e.preventDefault();
+            const pinInput = document.getElementById('adminPinInput');
+            const pin = pinInput ? pinInput.value.trim() : "";
+            if (pin === ADMIN_PASSCODE) {
+                isAdminAuthenticated = true;
+                closeAdminLoginModal();
+                const btnIcon = document.getElementById('adminBtnIcon');
+                if (btnIcon) btnIcon.className = "fas fa-unlock-keyhole text-emerald-400";
+                const btnText = document.getElementById('adminBtnText');
+                if (btnText) btnText.textContent = "จัดการคะแนน (แอดมิน)";
+                fetchCloudRecords();
+                switchView('scoreboard');
+            } else {
+                const pinError = document.getElementById('adminPinError');
+                if (pinError) pinError.classList.remove('hidden');
+            }
+        }
+
+        function exitAdminMode() {
+            isExamActive = false;
+            if (currentStudent) {
+                switchView('dashboard');
+            } else {
+                switchView('registration');
+            }
+        }
+
+        function makeDocKey(room, number) {
+            const roomNum = String(room).replace('ม.6/', '');
+            return `m6_${roomNum}_no_${Number(number)}`;
+        }
+
+        function applyExistingStudentData(docKey) {
+            const existing = window.allRecords.find(r => r.docKey === docKey);
+            if (existing) {
+                partScores[1] = existing.part1Score ?? null;
+                partScores[2] = existing.part2Score ?? null;
+                partScores[3] = existing.part3Score ?? null;
+                if (existing.savedAnswers) {
+                    try {
+                        const parsed = JSON.parse(existing.savedAnswers);
+                        userAnswers = {
+                            1: parsed[1] || {},
+                            2: parsed[2] || {},
+                            3: parsed[3] || {}
+                        };
+                    } catch (err) {}
+                }
+            } else {
+                partScores[1] = null;
+                partScores[2] = null;
+                partScores[3] = null;
+                userAnswers = { 1: {}, 2: {}, 3: {} };
+            }
+        }
+
+        function handleRegistration(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('inputName');
+            const roomInput = document.getElementById('inputRoom');
+            const numInput = document.getElementById('inputNumber');
+
+            if (!nameInput || !roomInput || !numInput) return;
+
+            const name = nameInput.value.trim();
+            const room = roomInput.value;
+            const number = parseInt(numInput.value, 10);
+
+            if (!name || !room || isNaN(number)) return;
+
+            const docKey = makeDocKey(room, number);
+            currentStudent = { name, room, number, docKey };
+
+            // Instant login using cached/existing records without blocking UI
+            applyExistingStudentData(docKey);
+            updateStudentBadge();
+            updateDashboardUI();
+            switchView('dashboard');
+
+            // Sync in background
+            fetchCloudRecords().then(() => {
+                if (currentStudent && currentStudent.docKey === docKey) {
+                    const cloudRec = window.allRecords.find(r => r.docKey === docKey);
+                    if (cloudRec) {
+                        if (partScores[1] === null && cloudRec.part1Score !== null) partScores[1] = cloudRec.part1Score;
+                        if (partScores[2] === null && cloudRec.part2Score !== null) partScores[2] = cloudRec.part2Score;
+                        if (partScores[3] === null && cloudRec.part3Score !== null) partScores[3] = cloudRec.part3Score;
+                        updateDashboardUI();
+                    }
+                    syncStudentScoreToCloud();
+                }
+            });
+        }
+
+        function openEditProfileModal() {
+            isExamActive = false;
+            switchView('registration');
+        }
+
+        function updateStudentBadge() {
+            const badge = document.getElementById('studentBadge');
+            const badgeText = document.getElementById('badgeText');
+            if (currentStudent && badge && badgeText) {
+                badge.classList.remove('hidden');
+                badgeText.textContent = `${currentStudent.room} เลขที่ ${currentStudent.number} • ${currentStudent.name}`;
+            } else if (badge) {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function switchView(viewName) {
+            const views = ['registrationView', 'dashboardView', 'quizView', 'scoreboardView'];
+            views.forEach(v => {
+                const el = document.getElementById(v);
+                if (el) el.classList.add('hidden');
+            });
+
+            const topHeader = document.getElementById('mainTopHeader');
+
+            if (viewName !== 'quiz') {
+                isExamActive = false;
+            }
+
+            if (viewName === 'dashboard' && !currentStudent) {
+                if (topHeader) topHeader.classList.remove('hidden');
+                const reg = document.getElementById('registrationView');
+                if (reg) reg.classList.remove('hidden');
+                return;
+            }
+
+            if (viewName === 'registration') {
+                if (topHeader) topHeader.classList.remove('hidden');
+                const reg = document.getElementById('registrationView');
+                if (reg) reg.classList.remove('hidden');
+            } else if (viewName === 'dashboard') {
+                if (topHeader) topHeader.classList.remove('hidden');
+                updateDashboardUI();
+                const dash = document.getElementById('dashboardView');
+                if (dash) dash.classList.remove('hidden');
+            } else if (viewName === 'quiz') {
+                isExamActive = true;
+                cheatWarnings = 0;
+                const countEl = document.getElementById('cheatCountText');
+                if (countEl) countEl.textContent = '0';
+                if (topHeader) topHeader.classList.add('hidden');
+                const qView = document.getElementById('quizView');
+                if (qView) qView.classList.remove('hidden');
+            } else if (viewName === 'scoreboard') {
+                if (!isAdminAuthenticated) {
+                    handleAdminAccessClick();
+                    return;
+                }
+                if (topHeader) topHeader.classList.remove('hidden');
+                updateGsheetBannerUI();
+                renderScoreboardTable();
+                const scoreView = document.getElementById('scoreboardView');
+                if (scoreView) scoreView.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleQuestionJumpDrawer() {
+            const drawer = document.getElementById('questionJumpDrawer');
+            if (drawer) drawer.classList.toggle('hidden');
+        }
+
+        function isAllPartsPassed60() {
+            return [1, 2, 3].every(p => partScores[p] !== null && partScores[p] !== undefined && partScores[p] >= 12);
+        }
+
+        function updateDashboardUI() {
+            const total = (partScores[1] || 0) + (partScores[2] || 0) + (partScores[3] || 0);
+            const pct = Math.round((total / 60) * 100);
+            const totalScoreEl = document.getElementById('dashTotalScore');
+            const percentTextEl = document.getElementById('dashPercentText');
+            if (totalScoreEl) totalScoreEl.textContent = total;
+            if (percentTextEl) percentTextEl.textContent = `คิดเป็น ${pct}% (เกณฑ์รวม 36/60)`;
+
+            const unlockedReview = isAllPartsPassed60();
+            const passBanner = document.getElementById('overallPassBanner');
+            if (passBanner) {
+                if (unlockedReview) {
+                    passBanner.className = "inline-flex items-center gap-2 text-xs font-bold px-3.5 py-2 rounded-xl bg-emerald-500/20 text-emerald-200 border border-emerald-400/30";
+                    passBanner.innerHTML = `<i class="fas fa-unlock-alt text-emerald-300"></i> <span>ผ่านเกณฑ์ 60% ครบทั้ง 3 ตอนแล้ว! ปลดล็อกปุ่มดูเฉลยเรียบร้อย</span>`;
+                } else {
+                    passBanner.className = "inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-amber-500/20 text-amber-200 border border-amber-400/30";
+                    passBanner.innerHTML = `<i class="fas fa-lock text-amber-300"></i> <span>สถานะเฉลย: ล็อกอยู่ (ต้องสอบผ่านเกณฑ์ 60% ครบทั้ง 3 ตอนก่อน)</span>`;
+                }
+            }
+
+            [1, 2, 3].forEach(partNum => {
+                const score = partScores[partNum];
+                const badgeEl = document.getElementById(`part${partNum}Badge`);
+                const scoreEl = document.getElementById(`part${partNum}ScoreText`);
+                const actionBtn = document.getElementById(`part${partNum}ActionBtn`);
+                const btnLabel = document.getElementById(`part${partNum}BtnLabel`);
+                const reviewBtn = document.getElementById(`part${partNum}ReviewBtn`);
+
+                if (!badgeEl || !scoreEl || !actionBtn || !btnLabel || !reviewBtn) return;
+
+                if (score !== null && score !== undefined) {
+                    const partPct = Math.round((score / 20) * 100);
+                    const passedPart = score >= 12;
+
+                    if (passedPart) {
+                        badgeEl.textContent = `ผ่านเกณฑ์ (${partPct}%) ✓`;
+                        badgeEl.className = "bg-white text-emerald-700 px-3 py-1 rounded-full text-xs font-extrabold shadow-sm";
+                        scoreEl.className = "font-extrabold text-lg text-emerald-600";
+                        
+                        actionBtn.disabled = true;
+                        actionBtn.className = "flex-1 bg-slate-300 text-slate-600 font-bold py-3 px-4 rounded-2xl text-sm flex items-center justify-center gap-2 cursor-not-allowed";
+                        btnLabel.textContent = `ผ่านแล้ว (ล็อกห้ามทำซ้ำ)`;
+                    } else {
+                        badgeEl.textContent = `ยังไม่ผ่าน (${partPct}%) ✗`;
+                        badgeEl.className = "bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-xs font-extrabold shadow-sm";
+                        scoreEl.className = "font-extrabold text-lg text-rose-600";
+
+                        actionBtn.disabled = false;
+                        actionBtn.className = "flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-2xl text-sm transition flex items-center justify-center gap-2 shadow-md shadow-indigo-500/15";
+                        btnLabel.textContent = `สอบแก้ตัว Part ${partNum}`;
+                    }
+                    scoreEl.textContent = `${score} / 20 (${partPct}%)`;
+
+                    if (unlockedReview) {
+                        reviewBtn.classList.remove('hidden');
+                    } else {
+                        reviewBtn.classList.add('hidden');
+                    }
+                } else {
+                    badgeEl.textContent = "ยังไม่ได้ทำ";
+                    badgeEl.className = "bg-black/25 px-3 py-1 rounded-full text-xs font-semibold text-white";
+                    scoreEl.className = "font-extrabold text-lg text-slate-800";
+                    scoreEl.textContent = `- / 20`;
+
+                    actionBtn.disabled = false;
+                    actionBtn.className = "flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-2xl text-sm transition flex items-center justify-center gap-2 shadow-md shadow-indigo-500/15";
+                    btnLabel.textContent = `เริ่มทำ Part ${partNum}`;
+                    reviewBtn.classList.add('hidden');
+                }
+            });
+        }
+
+        function getPartQuestionsList(partNum) {
+            const blocks = EXAM_BLOCKS[partNum] || [];
+            const list = [];
+            blocks.forEach(b => {
+                b.questions.forEach(q => list.push(q));
+            });
+            return list;
+        }
+
+        function startPart(partNum, reviewMode = false) {
+            if (!currentStudent) {
+                switchView('registration');
+                return;
+            }
+
+            if (!reviewMode && partScores[partNum] !== null && partScores[partNum] >= 12) {
+                showModal(
+                    "ไม่สามารถทำซ้ำได้",
+                    `คุณสอบผ่าน Part ${partNum} แล้ว (ได้ ${partScores[partNum]}/20 คะแนน) ระบบไม่อนุญาตให้ทำซ้ำ`,
+                    [{ label: "รับทราบ", class: "bg-emerald-600 text-white", action: closeModal }]
+                );
+                return;
+            }
+
+            if (reviewMode && !isAllPartsPassed60()) {
+                showModal(
+                    "ยังไม่ปลดล็อกเฉลย",
+                    "นักเรียนต้องทำแบบทดสอบให้ครบทั้ง 3 ตอน และผ่านเกณฑ์ 60% จึงจะสามารถเปิดดูเฉลยได้",
+                    [{ label: "รับทราบ", class: "bg-emerald-600 text-white", action: closeModal }]
+                );
+                return;
+            }
+
+            activePart = partNum;
+            isReviewMode = reviewMode;
+
+            if (partNum === 2) {
+                for (let qId = 29; qId <= 35; qId++) {
+                    if (!Array.isArray(userAnswers[2][qId])) {
+                        userAnswers[2][qId] = ["", "", "", "", ""];
+                    }
+                }
+            }
+
+            const partTitles = {
+                1: "Part 1: Language Use (1-20)",
+                2: "Part 2: Writing (21-40)",
+                3: "Part 3: Reading (41-60)"
+            };
+            const headerTitle = document.getElementById('quizHeaderTitle');
+            if (headerTitle) headerTitle.textContent = partTitles[partNum] + (reviewMode ? " [เฉลย]" : "");
+
+            const submitBar = document.getElementById('bottomSubmitBar');
+            const cheatBanner = document.getElementById('antiCheatBanner');
+            if (reviewMode) {
+                if (submitBar) submitBar.classList.add('hidden');
+                if (cheatBanner) cheatBanner.classList.add('hidden');
+            } else {
+                if (submitBar) submitBar.classList.remove('hidden');
+                if (cheatBanner) cheatBanner.classList.remove('hidden');
+            }
+
+            const drawer = document.getElementById('questionJumpDrawer');
+            if (drawer) drawer.classList.add('hidden');
+
+            renderQuizPart();
+            updateQuizProgress();
+            switchView('quiz');
+        }
+
+        function confirmExitQuiz() {
+            showModal(
+                "ยืนยันออกจากการทำข้อสอบ?",
+                "คำตอบที่คุณทำไว้จะถูกบันทึกไว้ แต่ยังไม่ได้ส่งตรวจคะแนน",
+                [
+                    { label: "ทำต่อ", class: "bg-slate-200 text-slate-800", action: closeModal },
+                    { label: "ออกไปหน้าหลัก", class: "bg-rose-600 text-white", action: () => { closeModal(); switchView('dashboard'); } }
+                ]
+            );
+        }
+
+        function renderQuizPart() {
+            const container = document.getElementById('questionsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const blocks = EXAM_BLOCKS[activePart];
+            blocks.forEach(block => {
+                if (block.subTitle) {
+                    const headerDiv = document.createElement('div');
+                    headerDiv.className = "bg-yellow-300 text-slate-950 px-4 py-3.5 rounded-2xl brutal-card-sm";
+                    headerDiv.innerHTML = `
+                        <div class="text-sm sm:text-base font-black text-slate-950">${block.subTitle}</div>
+                        <div class="text-xs font-bold text-slate-800 mt-0.5">${block.directions || ''}</div>
+                    `;
+                    container.appendChild(headerDiv);
+                }
+
+                if (block.stimulusHtml) {
+                    const stimDiv = document.createElement('div');
+                    stimDiv.className = "bg-cyan-100 rounded-2xl p-4 sm:p-5 brutal-card-sm";
+                    stimDiv.innerHTML = `
+                        <div class="text-xs font-black uppercase tracking-wider text-slate-950 mb-2 flex items-center gap-1.5 bg-white inline-flex px-3 py-1 rounded-lg border-2 border-slate-900">
+                            <i class="fas fa-book-open"></i>
+                            <span>${block.stimulusTitle || 'Reading / Dialog Reference'}</span>
+                        </div>
+                        <div class="mt-2 bg-white p-3.5 rounded-xl border-2 border-slate-900">
+                            ${block.stimulusHtml}
+                        </div>
+                    `;
+                    container.appendChild(stimDiv);
+                }
+
+                block.questions.forEach(q => {
+                    const qCard = document.createElement('div');
+                    qCard.id = `question-card-${q.id}`;
+                    qCard.className = "bg-white rounded-2xl p-4 sm:p-5 brutal-card-sm transition";
+
+                    if (q.type === 'ordering') {
+                        qCard.innerHTML = renderOrderingQuestionHTML(q);
+                    } else {
+                        qCard.innerHTML = renderMultipleChoiceHTML(q);
+                    }
+                    container.appendChild(qCard);
+                });
+            });
+        }
+
+        function renderMultipleChoiceHTML(q) {
+            const selectedVal = userAnswers[activePart][q.id];
+            const optionsHtml = q.options.map((optText, idx) => {
+                const choiceNum = idx + 1;
+                const isSelected = selectedVal === choiceNum;
+
+                let cardStyle = "bg-white hover:bg-amber-50 text-slate-950";
+                let badgeStyle = "bg-slate-200 text-slate-950 border-2 border-slate-900";
+                let iconStatus = "";
+
+                if (isReviewMode) {
+                    if (choiceNum === q.correct) {
+                        cardStyle = "bg-emerald-300 text-slate-950 font-black";
+                        badgeStyle = "bg-white text-slate-950 border-2 border-slate-900";
+                        iconStatus = `<span class="ml-auto text-xs font-black bg-white px-2 py-0.5 rounded border-2 border-slate-900 text-emerald-900 flex items-center gap-1 shrink-0"><i class="fas fa-check-circle"></i> เฉลย</span>`;
+                    } else if (isSelected && choiceNum !== q.correct) {
+                        cardStyle = "bg-rose-300 text-slate-950 font-bold";
+                        badgeStyle = "bg-white text-slate-950 border-2 border-slate-900";
+                        iconStatus = `<span class="ml-auto text-xs font-black bg-white px-2 py-0.5 rounded border-2 border-slate-900 text-rose-900 flex items-center gap-1 shrink-0"><i class="fas fa-times-circle"></i> ที่เลือก</span>`;
+                    }
+                } else if (isSelected) {
+                    cardStyle = "bg-yellow-300 font-black text-slate-950";
+                    badgeStyle = "bg-slate-950 text-yellow-300 border-2 border-slate-900";
+                }
+
+                const clickAttr = isReviewMode ? "" : `onclick="selectMCOption(${q.id}, ${choiceNum})"`;
+
+                return `
+                    <div ${clickAttr} class="option-card cursor-pointer rounded-xl p-3 flex items-center gap-3 ${cardStyle}">
+                        <span class="w-7 h-7 rounded-lg text-xs font-black flex items-center justify-center shrink-0 ${badgeStyle}">
+                            ${choiceNum}
+                        </span>
+                        <span class="text-sm sm:text-base leading-snug">${optText}</span>
+                        ${iconStatus}
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <div class="flex items-start gap-2.5 mb-3.5">
+                    <span class="bg-yellow-300 text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0px_#0f172a] font-black px-2.5 py-1 rounded-lg text-xs sm:text-sm shrink-0 mt-0.5">
+                        ข้อ ${q.id}
+                    </span>
+                    <div class="text-slate-950 font-extrabold text-sm sm:text-base whitespace-pre-line leading-relaxed">${q.prompt}</div>
+                </div>
+                <div class="space-y-2.5">
+                    ${optionsHtml}
+                </div>
+            `;
+        }
+
+        function renderOrderingQuestionHTML(q) {
+            const currentArr = userAnswers[activePart][q.id] || ["", "", "", "", ""];
+            const sentencesHtml = Object.entries(q.sentences).map(([letter, text]) => `
+                <div class="flex items-start gap-2.5 bg-slate-50 p-3 rounded-xl border border-slate-200 text-sm">
+                    <span class="w-6 h-6 rounded-md bg-violet-600 text-white font-bold flex items-center justify-center shrink-0 text-xs">${letter}</span>
+                    <span class="text-slate-800 leading-relaxed">${text}</span>
+                </div>
+            `).join('');
+
+            const slotsHtml = [0, 1, 2, 3, 4].map(slotIdx => {
+                const selectedLetter = currentArr[slotIdx] || "";
+                const disabledAttr = isReviewMode ? "disabled" : "";
+                return `
+                    <div class="flex flex-col items-center bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm">
+                        <span class="text-xs font-bold text-slate-600 mb-1.5">ลำดับที่ (${slotIdx + 1})</span>
+                        <select ${disabledAttr} onchange="selectOrderingSlot(${q.id}, ${slotIdx}, this.value)"
+                            class="w-full text-center font-bold text-sm py-2 px-2 rounded-lg border border-slate-300 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-violet-500 outline-none">
+                            <option value="">- เลือก -</option>
+                            ${['A', 'B', 'C', 'D', 'E'].map(L => `<option value="${L}" ${selectedLetter === L ? 'selected' : ''}>${L}</option>`).join('')}
+                        </select>
+                    </div>
+                `;
+            }).join('');
+
+            let reviewBanner = "";
+            if (isReviewMode) {
+                const isAllCorrect = q.correctOrder.every((val, i) => currentArr[i] === val);
+                reviewBanner = `
+                    <div class="mt-4 p-3 rounded-xl text-sm font-semibold ${isAllCorrect ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-amber-50 text-amber-900 border border-amber-200'}">
+                        <i class="fas ${isAllCorrect ? 'fa-check-circle text-emerald-600' : 'fa-key text-amber-600'} mr-1"></i>
+                        ลำดับที่ถูกต้องตามกระดาษคำตอบ สทศ.: <strong>${q.correctOrder.join(' → ')}</strong>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2.5">
+                        <span class="bg-slate-900 text-white font-extrabold px-2.5 py-1 rounded-lg text-xs sm:text-sm">
+                            ข้อ ${q.id}
+                        </span>
+                        <span class="font-extrabold text-slate-900 text-sm sm:text-base">${q.situation}</span>
+                    </div>
+                    <span class="text-xs bg-violet-100 text-violet-800 px-2.5 py-1 rounded-full font-bold shrink-0">เรียง A - E</span>
+                </div>
+
+                <div class="space-y-2 mb-4">
+                    ${sentencesHtml}
+                </div>
+
+                <div class="bg-violet-50/60 border border-violet-200 rounded-xl p-3.5">
+                    <div class="text-xs font-bold text-violet-900 mb-2">
+                        เลือกลำดับประโยค A-E ลงในช่องลำดับที่ (1) ถึง (5) ให้ถูกต้อง:
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                        ${slotsHtml}
+                    </div>
+                    ${reviewBanner}
+                </div>
+            `;
+        }
+
+        function selectMCOption(qId, choiceNum) {
+            userAnswers[activePart][qId] = choiceNum;
+            // Update only the specific question card instead of re-rendering the whole DOM
+            const qList = getPartQuestionsList(activePart);
+            const qObj = qList.find(item => item.id === qId);
+            const cardEl = document.getElementById(`question-card-${qId}`);
+            if (qObj && cardEl) {
+                cardEl.innerHTML = renderMultipleChoiceHTML(qObj);
+            }
+            updateQuizProgress();
+        }
+
+        function selectOrderingSlot(qId, slotIdx, letter) {
+            if (!Array.isArray(userAnswers[activePart][qId])) {
+                userAnswers[activePart][qId] = ["", "", "", "", ""];
+            }
+            userAnswers[activePart][qId][slotIdx] = letter;
+            updateQuizProgress();
+        }
+
+        function isQuestionAnswered(partNum, q) {
+            const ans = userAnswers[partNum][q.id];
+            if (q.type === 'ordering') {
+                return Array.isArray(ans) && ans.length === 5 && ans.every(x => x !== "");
+            }
+            return ans !== undefined && ans !== null && ans !== "";
+        }
+
+        function updateQuizProgress() {
+            const qList = getPartQuestionsList(activePart);
+            let answeredCount = 0;
+
+            const pillsContainer = document.getElementById('questionNavPills');
+            if (!pillsContainer) return;
+            pillsContainer.innerHTML = '';
+
+            qList.forEach(q => {
+                const done = isQuestionAnswered(activePart, q);
+                if (done) answeredCount++;
+
+                const pill = document.createElement('button');
+                pill.type = 'button';
+                pill.textContent = q.id;
+                pill.onclick = () => {
+                    const el = document.getElementById(`question-card-${q.id}`);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                };
+                pill.className = `w-6 h-6 rounded text-[11px] font-bold transition ${
+                    done
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-slate-200 text-slate-600 hover:bg-slate-300'
+                }`;
+                pillsContainer.appendChild(pill);
+            });
+
+            const subEl = document.getElementById('quizHeaderSub');
+            if (subEl) subEl.textContent = `ตอบแล้ว ${answeredCount} / ${qList.length} ข้อ (เกณฑ์ผ่าน 12/20)`;
+        }
+
+        function confirmSubmitPart() {
+            const qList = getPartQuestionsList(activePart);
+            const unanswered = qList.filter(q => !isQuestionAnswered(activePart, q));
+
+            if (unanswered.length > 0) {
+                const missingNums = unanswered.map(q => q.id).join(', ');
+                showModal(
+                    "ยังทำข้อสอบไม่ครบ",
+                    `คุณยังไม่ได้ทำข้อที่: ${missingNums} (เหลืออีก ${unanswered.length} ข้อ) ยืนยันที่จะส่งคำตอบเลยหรือไม่?`,
+                    [
+                        { label: "กลับไปทำต่อ", class: "bg-slate-200 text-slate-950 brutal-btn", action: closeModal },
+                        { label: "ยืนยันส่งคำตอบ", class: "bg-emerald-400 text-slate-950 brutal-btn", action: () => { closeModal(); finalizePartSubmission(false); } }
+                    ]
+                );
+            } else {
+                finalizePartSubmission(false);
+            }
+        }
+
+        function finalizePartSubmission(forcedByCheat = false) {
+            isExamActive = false;
+            const qList = getPartQuestionsList(activePart);
+            let score = 0;
+
+            qList.forEach(q => {
+                const ans = userAnswers[activePart][q.id];
+                if (q.type === 'ordering') {
+                    if (Array.isArray(ans) && q.correctOrder.every((val, idx) => ans[idx] === val)) {
+                        score++;
+                    }
+                } else {
+                    if (ans === q.correct) {
+                        score++;
+                    }
+                }
+            });
+
+            partScores[activePart] = score;
+
+            // Update Dashboard & Sync in Background immediately (Non-blocking! 0ms delay)
+            updateDashboardUI();
+            syncStudentScoreToCloud();
+
+            const pct = Math.round((score / 20) * 100);
+            const passedThisPart = score >= 12;
+            const passedAllParts = isAllPartsPassed60();
+
+            let titlePrefix = forcedByCheat ? "⚠️ ระบบบังคับส่งข้อสอบเนื่องจากออกนอกหน้าจอ\n\n" : "";
+
+            if (!passedThisPart) {
+                showModal(
+                    titlePrefix + `ยังไม่ผ่านเกณฑ์ 60% (Part ${activePart})`,
+                    `ผู้เข้าสอบ: ${currentStudent.name} (${currentStudent.room} เลขที่ ${currentStudent.number})\nคะแนน Part ${activePart}: ${score} / 20 คะแนน (${pct}%)\n\nเกณฑ์ผ่านคือ 60% (12 คะแนนขึ้นไป) กรุณาสอบแก้ตัวใหม่อีกครั้ง`,
+                    [
+                        {
+                            label: `สอบแก้ตัว Part ${activePart}`,
+                            class: "bg-yellow-300 hover:bg-yellow-400 text-slate-950 brutal-btn",
+                            action: () => { closeModal(); startPart(activePart, false); }
+                        },
+                        {
+                            label: "กลับหน้าหลัก",
+                            class: "bg-slate-200 hover:bg-slate-300 text-slate-950 brutal-btn",
+                            action: () => { closeModal(); switchView('dashboard'); }
+                        }
+                    ]
+                );
+            } else if (passedThisPart && !passedAllParts) {
+                const remainingParts = [1, 2, 3].filter(p => !(partScores[p] !== null && partScores[p] >= 12));
+                showModal(
+                    titlePrefix + `ผ่านเกณฑ์ Part ${activePart} แล้ว! (${pct}%)`,
+                    `ผู้เข้าสอบ: ${currentStudent.name} (${currentStudent.room} เลขที่ ${currentStudent.number})\nคะแนน Part ${activePart}: ${score} / 20 คะแนน (${pct}%)\n\nบันทึกคะแนนเรียบร้อยแล้ว! ตอนนี้ไปทำตอนที่เหลือ (Part ${remainingParts.join(', ')}) ให้ผ่านเกณฑ์ได้เลย!`,
+                    [
+                        {
+                            label: "ไปทำตอนต่อไป",
+                            class: "bg-emerald-400 hover:bg-emerald-300 text-slate-950 brutal-btn",
+                            action: () => { closeModal(); switchView('dashboard'); }
+                        }
+                    ]
+                );
+            } else {
+                showModal(
+                    titlePrefix + `ยินดีด้วย! ผ่านเกณฑ์ 60% ครบทั้ง 3 ตอนแล้ว`,
+                    `ผู้เข้าสอบ: ${currentStudent.name} (${currentStudent.room} เลขที่ ${currentStudent.number})\nคะแนน Part ${activePart}: ${score} / 20 คะแนน (${pct}%)\n\nคุณผ่านเกณฑ์ครบทุกตอนและบันทึกเข้าสู่ระบบเรียบร้อย ปลดล็อกปุ่มดูเฉลยเรียบร้อยแล้ว`,
+                    [
+                        {
+                            label: "ดูเฉลยตอนนี้",
+                            class: "bg-yellow-300 hover:bg-yellow-400 text-slate-950 brutal-btn",
+                            action: () => { closeModal(); startPart(activePart, true); }
+                        },
+                        {
+                            label: "กลับหน้าหลัก",
+                            class: "bg-emerald-400 hover:bg-emerald-300 text-slate-950 brutal-btn",
+                            action: () => { closeModal(); switchView('dashboard'); }
+                        }
+                    ]
+                );
+            }
+        }
+
+        async function syncStudentScoreToCloud() {
+            if (!currentStudent) return;
+
+            const p1 = partScores[1];
+            const p2 = partScores[2];
+            const p3 = partScores[3];
+            const total = (Number(p1) || 0) + (Number(p2) || 0) + (Number(p3) || 0);
+
+            const recordData = {
+                docKey: currentStudent.docKey,
+                name: currentStudent.name,
+                room: currentStudent.room,
+                number: Number(currentStudent.number),
+                part1Score: p1,
+                part2Score: p2,
+                part3Score: p3,
+                totalScore: total,
+                savedAnswers: JSON.stringify(userAnswers),
+                updatedAt: Date.now()
+            };
+
+            const idx = window.allRecords.findIndex(r => r.docKey === recordData.docKey);
+            if (idx >= 0) {
+                window.allRecords[idx] = recordData;
+            } else {
+                window.allRecords.push(recordData);
+            }
+            await saveCloudRecords(recordData);
+            renderScoreboardTable();
+        }
+
+        function parseRoomNumber(roomStr) {
+            if (!roomStr) return 999;
+            const m = String(roomStr).match(/\/(\d+)/);
+            return m ? parseInt(m[1], 10) : 999;
+        }
+
+        function renderScoreboardTable() {
+            const tbody = document.getElementById('scoreboardTableBody');
+            const filterRoomSelect = document.getElementById('filterRoomSelect');
+            if (!tbody || !filterRoomSelect) return;
+            const filterRoom = filterRoomSelect.value;
+
+            let filtered = [...window.allRecords];
+            if (filterRoom !== 'ALL') {
+                filtered = filtered.filter(r => r.room === filterRoom);
+            }
+
+            filtered.sort((a, b) => {
+                const rA = parseRoomNumber(a.room);
+                const rB = parseRoomNumber(b.room);
+                if (rA !== rB) return rA - rB;
+                return (Number(a.number) || 0) - (Number(b.number) || 0);
+            });
+
+            const statCount = document.getElementById('statCount');
+            if (statCount) statCount.textContent = `${filtered.length} คน`;
+
+            const calcAvg = (arr, key) => {
+                const valid = arr.filter(x => x[key] !== null && x[key] !== undefined && x[key] !== "");
+                if (valid.length === 0) return "-";
+                const sum = valid.reduce((acc, cur) => acc + Number(cur[key] || 0), 0);
+                return (sum / valid.length).toFixed(1);
+            };
+
+            const statP1 = document.getElementById('statAvgP1');
+            const statP2 = document.getElementById('statAvgP2');
+            const statTot = document.getElementById('statAvgTotal');
+            if (statP1) statP1.textContent = calcAvg(filtered, 'part1Score');
+            if (statP2) statP2.textContent = calcAvg(filtered, 'part2Score');
+            if (statTot) statTot.textContent = calcAvg(filtered, 'totalScore');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="py-10 text-center text-slate-400">
+                            <i class="fas fa-folder-open text-2xl mb-2 block"></i>
+                            ยังไม่มีข้อมูลคะแนนสอบในห้องที่เลือก
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(rec => {
+                const isMe = currentStudent && rec.docKey === currentStudent.docKey;
+                const formatPartCell = (val) => {
+                    if (val === null || val === undefined || val === "") return `<span class="text-slate-300">-</span>`;
+                    const pass = Number(val) >= 12;
+                    return `<span class="${pass ? 'text-emerald-700 font-bold' : 'text-red-600 font-bold'}">${val}</span> <span class="text-[10px] px-1.5 py-0.5 rounded ${pass ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-700'}">${pass ? 'ผ่าน' : 'ไม่ผ่าน'}</span>`;
+                };
+
+                const p1 = formatPartCell(rec.part1Score);
+                const p2 = formatPartCell(rec.part2Score);
+                const p3 = formatPartCell(rec.part3Score);
+                const total = (Number(rec.part1Score) || 0) + (Number(rec.part2Score) || 0) + (Number(rec.part3Score) || 0);
+                const allPassed = Number(rec.part1Score) >= 12 && Number(rec.part2Score) >= 12 && Number(rec.part3Score) >= 12;
+
+                return `
+                    <tr class="${isMe ? 'bg-emerald-50/90 font-semibold' : 'hover:bg-slate-50'} transition">
+                        <td class="py-3 px-4 text-center">
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-lg">${rec.room}</span>
+                        </td>
+                        <td class="py-3 px-4 text-center font-bold text-slate-900">${rec.number}</td>
+                        <td class="py-3 px-4 text-slate-800">
+                            ${rec.name}
+                            ${isMe ? '<span class="ml-1.5 text-[10px] bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full">คุณ</span>' : ''}
+                        </td>
+                        <td class="py-3 px-4 text-center">${p1}</td>
+                        <td class="py-3 px-4 text-center">${p2}</td>
+                        <td class="py-3 px-4 text-center">${p3}</td>
+                        <td class="py-3 px-4 text-center font-extrabold ${allPassed ? 'text-emerald-900 bg-emerald-50' : 'text-slate-800 bg-slate-50'} text-base">
+                            ${total} <span class="text-xs font-normal text-slate-500">(${Math.round((total/60)*100)}%)</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function exportCSV() {
+            const filterRoomSelect = document.getElementById('filterRoomSelect');
+            const filterRoom = filterRoomSelect ? filterRoomSelect.value : 'ALL';
+            let filtered = [...window.allRecords];
+            if (filterRoom !== 'ALL') {
+                filtered = filtered.filter(r => r.room === filterRoom);
+            }
+            filtered.sort((a, b) => {
+                const rA = parseRoomNumber(a.room);
+                const rB = parseRoomNumber(b.room);
+                if (rA !== rB) return rA - rB;
+                return (Number(a.number) || 0) - (Number(b.number) || 0);
+            });
+
+            const headers = ["ชั้นเรียน", "เลขที่", "ชื่อ-นามสกุล", "Part 1 (20)", "Part 2 (20)", "Part 3 (20)", "คะแนนรวม (60)"];
+            const rows = filtered.map(r => [
+                r.room,
+                r.number,
+                `"${(r.name || '').replace(/"/g, '""')}"`,
+                r.part1Score ?? "",
+                r.part2Score ?? "",
+                r.part3Score ?? "",
+                (Number(r.part1Score) || 0) + (Number(r.part2Score) || 0) + (Number(r.part3Score) || 0)
+            ]);
+
+            const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `ONET_M6_English_2568_Scores_${filterRoom === 'ALL' ? 'AllRooms' : filterRoom.replace('/', '-')}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function showModal(title, message, actions = []) {
+            const mTitle = document.getElementById('modalTitle');
+            const mMsg = document.getElementById('modalMessage');
+            const actionsEl = document.getElementById('modalActions');
+            const modalEl = document.getElementById('customModal');
+
+            if (mTitle) mTitle.textContent = title;
+            if (mMsg) mMsg.textContent = message;
+            if (actionsEl) {
+                actionsEl.innerHTML = '';
+                actions.forEach(act => {
+                    const btn = document.createElement('button');
+                    btn.className = `px-4 py-2 rounded-xl text-sm font-bold transition ${act.class || 'bg-indigo-600 text-white'}`;
+                    btn.textContent = act.label;
+                    btn.onclick = act.action;
+                    actionsEl.appendChild(btn);
+                });
+            }
+            if (modalEl) modalEl.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            const modalEl = document.getElementById('customModal');
+            if (modalEl) modalEl.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
